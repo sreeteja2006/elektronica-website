@@ -1,40 +1,41 @@
 {{ define "main" }}
 {{ $blog := partialCached "blog-data.html" . }}
 
-<!-- Hero: live oscilloscope -->
-<section id="hero" class="relative isolate flex min-h-[calc(100svh-4rem)] items-center overflow-hidden border-b border-white/[0.04]" data-hero>
-    <div class="grat absolute inset-0 -z-20" aria-hidden="true"></div>
-    <canvas id="scope" class="absolute inset-0 -z-10 h-full w-full" aria-hidden="true"></canvas>
-    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-ink-950 via-ink-950/75 to-transparent lg:via-ink-950/55" aria-hidden="true"></div>
-    <div class="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-ink-950 to-transparent" aria-hidden="true"></div>
-
-    <div class="shell relative py-20">
+<!-- Hero: the scope is the content, so it sits under the text instead of behind it -->
+<section id="hero" class="flex min-h-[calc(100svh-4rem)] flex-col pb-8" data-hero>
+    <div class="shell pb-10 pt-14 lg:pt-20">
         <p class="eyebrow" data-hero-line>Electronics &amp; Signals Club &middot; IIT Hyderabad</p>
-        <h1 class="display mt-5 text-[clamp(3.25rem,11vw,8.5rem)]" data-hero-title>{{ .Site.Title }}</h1>
-        <h2 class="mt-7 max-w-2xl text-2xl font-light leading-snug text-slate-100 sm:text-3xl" data-hero-line>
+        <h1 class="display mt-5 text-[clamp(3rem,9vw,7rem)]" data-hero-title>{{ .Site.Title }}</h1>
+        <h2 class="mt-6 max-w-2xl text-2xl font-normal leading-snug text-ink-100 sm:text-3xl" data-hero-line>
             {{ .Site.Params.Moto }}
         </h2>
-        <p class="mt-5 max-w-xl text-base leading-relaxed text-slate-400 sm:text-lg" data-hero-line>
+        <p class="mt-4 max-w-xl text-base leading-relaxed text-ink-300 sm:text-lg" data-hero-line>
             {{ .Site.Params.Description }}
         </p>
-        <div class="mt-10 flex flex-wrap gap-4" data-hero-line>
+        <div class="mt-8 flex flex-wrap gap-3" data-hero-line>
             <a href="#blog" class="btn btn-primary">Read the blog</a>
             <a href="{{ "/team/" | relLangURL }}" class="btn btn-ghost">Meet the team</a>
         </div>
     </div>
 
-    <!-- Scope readout. The numbers follow the waveforms as you move the mouse. -->
-    <div class="panel absolute bottom-8 right-6 hidden px-4 py-3 font-mono text-xs leading-6 text-slate-400 sm:block lg:right-10" data-hud aria-hidden="true">
-        <p><span class="text-volt-400">&#9632;</span> CH1 SIN <span class="ml-2 text-slate-200" data-hud-freq>268 Hz</span></p>
-        <p><span class="text-phos-400">&#9632;</span> CH2 SQR <span class="ml-2 text-slate-200" data-hud-freq2>134 Hz</span></p>
-        <p><span class="text-copper-400">&#9632;</span> CH3 SAW <span class="ml-2 text-slate-200" data-hud-freq3>201 Hz</span></p>
-        <p class="mt-1 border-t border-ink-600 pt-1">Vpp <span class="text-slate-200" data-hud-vpp>3.5 V</span> &middot; 1 ms/div</p>
+    <div class="shell flex flex-1 flex-col">
+        <div class="relative min-h-[15rem] flex-1 border border-ink-600">
+            <canvas id="scope" class="absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
+        </div>
+        <!-- Scope readout. The numbers follow the traces as you move the mouse. -->
+        <p class="meta mt-3 flex flex-wrap gap-x-6 gap-y-1 normal-case tracking-normal" data-hud aria-hidden="true">
+            <span><span class="mr-2 inline-block h-px w-4 bg-signal-400 align-middle"></span>CH1 SIN <span class="ml-1 text-ink-100" data-hud-freq>268 Hz</span></span>
+            <span><span class="mr-2 inline-block h-px w-4 bg-ink-100 align-middle"></span>CH2 SQR <span class="ml-1 text-ink-100" data-hud-freq2>134 Hz</span></span>
+            <span><span class="mr-2 inline-block h-px w-4 bg-ink-400 align-middle"></span>CH3 SAW <span class="ml-1 text-ink-100" data-hud-freq3>201 Hz</span></span>
+            <span>Vpp <span class="ml-1 text-ink-100" data-hud-vpp>3.5 V</span></span>
+            <span>1 ms/div</span>
+        </p>
     </div>
 </section>
 
 <!-- Our mission -->
 <section id="mission" class="relative section-pad" aria-labelledby="mission-heading">
-    <div class="shell grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+    <div class="shell grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
         <div>
             <h2 id="mission-heading" class="heading" data-pad data-reveal>{{ .Site.Params.P1.Heading }}</h2>
             {{ range .Site.Params.P1.Content }}
@@ -46,16 +47,11 @@
 
         {{ with resources.Get .Site.Params.P1.Image }}
         {{ $img := .Resize "960x webp q85" }}
-        <figure class="panel p-2" data-reveal>
-            <div class="scanlines relative overflow-hidden">
-                <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}"
-                     alt="X-ray image of a populated circuit board"
-                     class="aspect-[4/3] w-full object-cover object-[50%_75%]"
-                     style="filter: grayscale(1) contrast(1.15) brightness(0.9) sepia(1) hue-rotate(150deg) saturate(2.4);"
-                     loading="lazy" decoding="async" />
-                <div class="absolute inset-0 bg-gradient-to-tr from-ink-950/60 via-transparent to-volt-400/10"></div>
-            </div>
-        </figure>
+        <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}"
+             alt="X-ray image of a populated circuit board"
+             class="aspect-[4/3] w-full object-cover object-[50%_75%]"
+             style="filter: grayscale(1) contrast(1.05) brightness(0.85);"
+             loading="lazy" decoding="async" data-reveal />
         {{ end }}
     </div>
 </section>
@@ -80,22 +76,16 @@
 
             <div class="showcase-item" data-card>
                 <a href="{{ site.Params.blog.medium_profile }}" target="_blank" rel="noopener"
-                   class="panel group flex h-full min-h-[22rem] flex-col items-start justify-between p-8 transition hover:border-volt-400/60">
-                    <svg class="h-10 w-10 text-volt-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 12h4l2-6 4 12 3-9 2 3h5" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                    <div>
-                        <p class="text-2xl font-bold leading-snug text-white">More on Medium</p>
-                        <span class="link-arrow mt-4">
-                            Read all posts
-                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                        </span>
-                    </div>
+                   class="group flex h-full min-h-[16rem] flex-col justify-between border-t border-ink-600 pt-5">
+                    <span class="meta">Archive</span>
+                    <span class="text-3xl font-semibold leading-tight tracking-tight text-ink-100 transition-colors group-hover:text-signal-300">More on Medium &rarr;</span>
                 </a>
             </div>
         </div>
 
         <div class="shell mt-10 hidden lg:block" aria-hidden="true">
             <div class="h-px w-full bg-ink-600">
-                <div class="h-px origin-left scale-x-0 bg-volt-400 shadow-[0_0_10px_rgba(61,230,255,0.8)]" data-progress></div>
+                <div class="h-px origin-left scale-x-0 bg-signal-400" data-progress></div>
             </div>
         </div>
     </div>

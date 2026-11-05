@@ -1,7 +1,7 @@
 // Blog showcase on the home page.
 //
-//  - Desktop: the row of post cards pins to the screen and slides sideways as you
-//    scroll down, with a signal-strength bar underneath showing how far along you are.
+//  - Desktop: the row of posts pins to the screen and slides sideways as you
+//    scroll down, with a thin progress line underneath showing how far along you are.
 //  - Mobile / reduced motion: a plain swipeable row (CSS scroll-snap), no pinning.
 
 export function initShowcase({ gsap, reduced }) {
@@ -35,9 +35,8 @@ export function initShowcase({ gsap, reduced }) {
 
     gsap.from(cards, {
       opacity: 0,
-      y: 70,
-      scale: 0.94,
-      duration: 0.9,
+      y: 40,
+      duration: 0.8,
       stagger: 0.1,
       ease: "power3.out",
       scrollTrigger: { trigger: wrap, start: "top 85%", once: true },

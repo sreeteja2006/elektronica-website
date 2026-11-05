@@ -1,6 +1,6 @@
-// Hero: a live oscilloscope behind the headline.
+// Hero: a live oscilloscope under the headline.
 //
-//  - Three channels (sine, square, sawtooth) drawn on a canvas, like a scope screen.
+//  - Three channels (sine, square, sawtooth) drawn on a canvas with a scope graticule.
 //  - Mouse X sets the frequency, mouse Y sets the amplitude. The readout panel
 //    shows the matching numbers (timebase is 1 ms/div, 10 divisions across).
 //  - Scrolling past the hero flatlines the signals.
@@ -80,11 +80,14 @@ function initTitle({ gsap, SplitText, reduced }) {
 
 /* ---------- Oscilloscope ---------- */
 
+// One accent plus two neutrals. The same colours key the readout under the scope.
 const CHANNELS = [
-  { rgb: "61,230,255", y: 0.3, k: 1, shape: (t) => Math.sin(t) },
-  { rgb: "61,255,143", y: 0.56, k: 0.5, shape: (t) => Math.tanh(7 * Math.sin(t)) },
+  { rgb: "98,184,196", a: 1, w: 2, y: 0.3, k: 1, shape: (t) => Math.sin(t) },
+  { rgb: "232,236,238", a: 0.8, w: 1.5, y: 0.56, k: 0.5, shape: (t) => Math.tanh(7 * Math.sin(t)) },
   {
-    rgb: "255,176,32",
+    rgb: "125,135,141",
+    a: 0.9,
+    w: 1.5,
     y: 0.8,
     k: 0.75,
     shape: (t) => {
@@ -140,7 +143,23 @@ function initScope({ gsap, ScrollTrigger, hero, reduced }) {
     const cycles = cyclesNow();
     const amp = H * 0.085 * (0.35 + 0.9 * S.amp) * S.mult;
     const step = isSmall() ? 6 : 3;
-    const glow = !isSmall();
+
+    // Graticule: 10 square divisions across, centred vertically.
+    const div = W / 10;
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "rgba(255,255,255,0.05)";
+    ctx.beginPath();
+    for (let i = 1; i < 10; i++) {
+      ctx.moveTo(Math.round(i * div) + 0.5, 0);
+      ctx.lineTo(Math.round(i * div) + 0.5, H);
+    }
+    for (let k = 0; H / 2 - k * div > 0; k++) {
+      for (const y of k === 0 ? [H / 2] : [H / 2 - k * div, H / 2 + k * div]) {
+        ctx.moveTo(0, Math.round(y) + 0.5);
+        ctx.lineTo(W, Math.round(y) + 0.5);
+      }
+    }
+    ctx.stroke();
 
     for (const ch of CHANNELS) {
       const cy = H * ch.y;
@@ -155,22 +174,15 @@ function initScope({ gsap, ScrollTrigger, hero, reduced }) {
       ctx.lineJoin = "round";
       ctx.lineCap = "round";
 
-      // Soft phosphor halo, then a bright core.
-      ctx.lineWidth = glow ? 2.4 : 5;
-      ctx.strokeStyle = `rgba(${ch.rgb},${glow ? 0.95 : 0.25})`;
-      ctx.shadowColor = `rgba(${ch.rgb},0.9)`;
-      ctx.shadowBlur = glow ? 14 : 0;
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = "rgba(255,255,255,0.55)";
+      ctx.lineWidth = ch.w;
+      ctx.strokeStyle = `rgba(${ch.rgb},${ch.a})`;
       ctx.stroke();
 
       // Measurement marker where the pointer is.
       if (S.cursor > 0.01 && S.px >= 0) {
         ctx.fillStyle = `rgba(${ch.rgb},${S.cursor})`;
         ctx.beginPath();
-        ctx.arc(S.px, at(S.px), 4, 0, TAU);
+        ctx.arc(S.px, at(S.px), 3, 0, TAU);
         ctx.fill();
       }
     }
@@ -178,7 +190,7 @@ function initScope({ gsap, ScrollTrigger, hero, reduced }) {
     if (S.cursor > 0.01 && S.px >= 0) {
       ctx.save();
       ctx.setLineDash([4, 6]);
-      ctx.strokeStyle = `rgba(61,230,255,${0.3 * S.cursor})`;
+      ctx.strokeStyle = `rgba(232,236,238,${0.25 * S.cursor})`;
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(S.px, 0);
@@ -223,11 +235,11 @@ function initScope({ gsap, ScrollTrigger, hero, reduced }) {
     new ResizeObserver(() => {
       resize();
       draw();
-    }).observe(hero);
+    }).observe(canvas);
     return;
   }
 
-  new ResizeObserver(resize).observe(hero);
+  new ResizeObserver(resize).observe(canvas);
 
   // Pointer: X -> frequency, Y -> amplitude.
   const setFreq = gsap.quickTo(S, "freq", { duration: 1, ease: "power3.out" });
@@ -242,9 +254,14 @@ function initScope({ gsap, ScrollTrigger, hero, reduced }) {
     setFreq(Math.min(1, Math.max(0, nx)));
     setAmp(Math.min(1, Math.max(0, 1 - ny)));
     if (e.pointerType === "mouse") {
-      if (S.px < 0) S.px = e.clientX - r.left;
-      setPx(e.clientX - r.left);
-      setCursor(1);
+      // The measurement cursor only shows while the pointer is over the scope.
+      const c = canvas.getBoundingClientRect();
+      const inside = e.clientX >= c.left && e.clientX <= c.right && e.clientY >= c.top && e.clientY <= c.bottom;
+      if (inside) {
+        if (S.px < 0) S.px = e.clientX - c.left;
+        setPx(e.clientX - c.left);
+      }
+      setCursor(inside ? 1 : 0);
     }
   });
   hero.addEventListener("pointerleave", () => {

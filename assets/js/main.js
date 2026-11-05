@@ -2,8 +2,8 @@
 //
 //   hero.js      live oscilloscope + decoding headline
 //   showcase.js  horizontal-scroll blog showcase
-//   pcb.js       PCB bus that draws and lights up as you scroll
-//   ui.js        menu, scroll meter, reveals, card tilt, copy button
+//   pcb.js       PCB rail that draws and lights up as you scroll
+//   ui.js        menu, scroll meter, reveals, copy button
 //
 // GSAP lives in ./vendor/gsap (see the README there).
 import { gsap } from "./vendor/gsap/index.js";

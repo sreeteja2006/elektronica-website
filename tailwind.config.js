@@ -1,7 +1,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
-// Elektronica: dark "bench" theme. The logo's LED-cyan is the brand colour,
-// phosphor green is for live signals, copper/amber is for highlights.
+// Elektronica: dark, plain "bench" theme. Neutral graphite greys and ONE
+// muted accent (signal teal, taken from the logo and toned down). No other hues.
 module.exports = {
   content: [
     './layouts/**/*.html',
@@ -13,44 +13,26 @@ module.exports = {
     extend: {
       colors: {
         ink: {
-          950: '#04070b',
-          900: '#070c12',
-          800: '#0c141c',
-          700: '#121d28',
-          600: '#1b2a38',
-          500: '#2a3d4f',
-          400: '#4a6178',
-          300: '#7890a6',
+          950: '#0b0d0e', // page
+          900: '#101314',
+          800: '#161a1c',
+          700: '#1e2326',
+          600: '#2a3034', // hairlines
+          500: '#3b4348',
+          400: '#7d878d', // muted text (5.4:1 on the page colour)
+          300: '#a3acb1',
+          200: '#c8cfd3', // body text
+          100: '#e8ecee', // headings
         },
-        volt: {
-          300: '#7df3ff',
-          400: '#3de6ff',
-          500: '#14c8e6',
-          600: '#0aa3bf',
-        },
-        phos: {
-          300: '#8dffb9',
-          400: '#3dff8f',
-          500: '#1fd96f',
-        },
-        copper: {
-          300: '#ffd37a',
-          400: '#ffb020',
-          500: '#e8930c',
+        signal: {
+          300: '#8fd0d9',
+          400: '#62b8c4', // the accent
+          500: '#4a9ba7',
         },
       },
       fontFamily: {
-        sans: ['"Space Grotesk"', ...defaultTheme.fontFamily.sans],
-        mono: ['"JetBrains Mono"', ...defaultTheme.fontFamily.mono],
-      },
-      keyframes: {
-        blink: {
-          '0%, 49%': { opacity: '1' },
-          '50%, 100%': { opacity: '0' },
-        },
-      },
-      animation: {
-        blink: 'blink 1.1s steps(1) infinite',
+        sans: ['"IBM Plex Sans"', ...defaultTheme.fontFamily.sans],
+        mono: ['"IBM Plex Mono"', ...defaultTheme.fontFamily.mono],
       },
     },
   },

@@ -5,7 +5,7 @@
 <section class="section-pad pt-12 lg:pt-12">
     <div class="shell">
         {{ with .Content }}<div class="prose-ek mb-12 max-w-3xl">{{ . }}</div>{{ end }}
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
             {{ range $blog.posts }}
             <div data-reveal>{{ partial "blog-card.html" (dict "post" .) }}</div>
             {{ end }}
