@@ -1,12 +1,8 @@
-// Small interface behaviours: mobile menu, scroll line, reveals, copy button,
-// and the little wires under page titles.
-
-import { createWire } from "./wire.js";
+// Small interface behaviours: mobile menu, scroll meter, reveals, copy button.
 
 export function initUI({ gsap, ScrollTrigger, reduced }) {
   initMenu();
   initCopy();
-  initPageWires({ gsap, reduced });
   if (reduced) return;
   initScrollMeter(gsap);
   initReveals(gsap, ScrollTrigger);
@@ -16,12 +12,9 @@ function initMenu() {
   const btn = document.getElementById("menu-toggle");
   const menu = document.getElementById("mobile-menu");
   if (!btn || !menu) return;
-  const label = btn.querySelector("[data-menu-label]");
   const set = (open) => {
     btn.setAttribute("aria-expanded", String(open));
     menu.hidden = !open;
-    if (label) label.textContent = open ? "Close" : "Menu";
-    document.documentElement.style.overflow = open ? "hidden" : "";
   };
   btn.addEventListener("click", () => set(menu.hidden));
   menu.addEventListener("click", (e) => {
@@ -33,7 +26,6 @@ function initMenu() {
       btn.focus();
     }
   });
-  window.matchMedia("(min-width: 768px)").addEventListener("change", (e) => e.matches && set(false));
 }
 
 function initCopy() {
@@ -49,14 +41,6 @@ function initCopy() {
       }
       setTimeout(() => (label.textContent = original), 1800);
     });
-  });
-}
-
-// The wire under every page title rings once when the page loads.
-function initPageWires({ gsap, reduced }) {
-  document.querySelectorAll("[data-wire]").forEach((canvas) => {
-    const wire = createWire(canvas, { gsap, reduced, lineWidth: 1.5, reach: 24 });
-    if (!reduced) setTimeout(() => wire.pluck(0.12, 16), 500);
   });
 }
 
@@ -85,7 +69,7 @@ function initReveals(gsap, ScrollTrigger) {
       gsap.to(batch, {
         opacity: 1,
         y: 0,
-        duration: 0.8,
+        duration: 0.7,
         stagger: 0.08,
         ease: "power3.out",
         overwrite: "auto",

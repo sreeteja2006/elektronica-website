@@ -7,22 +7,22 @@
 <section class="pb-24 pt-14 lg:pt-16" aria-label="Ways to reach us">
     <div class="shell">
         <div data-reveal>
-            <p class="label">Email</p>
+            <p class="eyebrow">Email</p>
             <a href="mailto:{{ $email }}"
-               class="mt-4 block break-all font-serif text-[clamp(2.4rem,7vw,6.5rem)] leading-[1] tracking-[-0.015em] text-ink-100 underline decoration-ink-500 decoration-1 underline-offset-[0.12em] transition-colors hover:decoration-solder-400">{{ $email }}</a>
+               class="mt-4 block break-all text-3xl font-semibold tracking-tight text-ink-100 underline decoration-ink-500 underline-offset-8 transition-colors hover:decoration-signal-400 sm:text-5xl">{{ $email }}</a>
             <button type="button" class="link-arrow mt-6" data-copy="{{ $email }}">
                 <span data-copy-label>Copy address</span>
             </button>
         </div>
 
-        <ul class="rows mt-20 max-w-2xl">
+        <ul class="rows mt-16 max-w-xl">
             {{ range $name, $s := $social }}
             {{ if $s.enabled }}
             <li data-reveal>
                 <a href="{{ $s.url }}" target="_blank" rel="noopener"
-                   class="group flex items-center justify-between gap-4 py-5 font-serif text-3xl text-ink-100">
+                   class="group flex items-center justify-between gap-4 py-4 text-lg text-ink-100">
                     <span>{{ index (dict "github" "GitHub" "instagram" "Instagram" "twitter" "X (Twitter)" "medium" "Medium") $name | default $name }}</span>
-                    <span class="text-ink-400 transition-colors group-hover:text-solder-400" aria-hidden="true">&rarr;</span>
+                    <span class="text-ink-400 transition-colors group-hover:text-signal-400" aria-hidden="true">&rarr;</span>
                 </a>
             </li>
             {{ end }}

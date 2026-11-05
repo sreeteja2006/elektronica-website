@@ -2,9 +2,8 @@
 
 Website of Elektronica, the Electronics and Signals club of IIT Hyderabad.
 Built with [Hugo](https://gohugo.io), Tailwind CSS and [GSAP](https://gsap.com).
-Type is Instrument Serif (headings) and Instrument Sans (text), loaded from Google Fonts in
-`layouts/partials/head.html`. The palette is warm near-black plus one accent (solder orange),
-defined in `tailwind.config.js`. There is no monospace font on the site.
+Type is IBM Plex Sans and IBM Plex Mono (loaded from Google Fonts in `layouts/partials/head.html`).
+The palette is neutral greys plus one accent colour, defined in `tailwind.config.js`.
 
 ## Run it locally
 
@@ -61,18 +60,15 @@ Until it is set, the canonical link and social-preview image tags are left out.
 
 ## Animations
 
-All motion is in `assets/js/` and is bundled by Hugo into one file. GSAP does the
-timing; the drawing is plain canvas.
+All motion is in `assets/js/` and is bundled by Hugo into one file.
 
-| File        | What it does                                                                                           |
-| ----------- | ------------------------------------------------------------------------------------------------------ |
-| `wire.js`   | A wire you can pluck: a damped vibrating string on a canvas. Used by the hero and under page titles.   |
-| `hero.js`   | Fits the title to the page width. Its letters grow out of the wire and pluck it as they land.          |
-| `signal.js` | Mission scene: a square wave is summed from sine harmonics as you scroll (pinned on desktop).          |
-| `tuner.js`  | Blog as a radio tuner: scroll turns the dial, posts lock in out of static, scrolling snaps to stations. |
-| `ui.js`     | Mobile menu, scroll line, reveal-on-scroll, copy-email button, wires under page titles.                |
+| File          | What it does                                                                 |
+| ------------- | ---------------------------------------------------------------------------- |
+| `hero.js`     | Oscilloscope under the hero text (mouse sets frequency and amplitude), decoding title |
+| `pcb.js`      | PCB rail on the left that lights up as you scroll, with a pad at each heading |
+| `showcase.js` | Home page blog cards pinned and scrolled sideways                             |
+| `ui.js`       | Mobile menu, scroll line, reveal-on-scroll, copy-email button                 |
 
 GSAP is vendored in `assets/js/vendor/gsap/` (see the README there), so there is no
-npm dependency on it. Everything respects `prefers-reduced-motion`: the wire is flat,
-the square wave is complete and the blog is a plain list. On phones nothing is pinned
-and the blog is a plain list.
+npm dependency on it. Everything respects `prefers-reduced-motion`: the hero shows a
+still frame, the rail is fully lit and nothing is pinned or animated.

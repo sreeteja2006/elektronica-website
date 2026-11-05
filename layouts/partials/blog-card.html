@@ -1,19 +1,11 @@
-{{- /* Context: dict "post" <post dict from blog-data.html>. One row of the blog index. */ -}}
+{{- /* Context: dict "post" <post dict from blog-data.html> */ -}}
 {{- $p := .post -}}
-<article>
-    <a href="{{ $p.link }}" class="post-row"
-       {{ if hasPrefix $p.link "http" }}target="_blank" rel="noopener"{{ end }}>
-        <p class="label pt-2">
-            <time datetime="{{ $p.date.Format "2006-01-02" }}">{{ $p.date.Format "02 Jan 2006" }}</time>
-            {{- if $p.minutes }}<br />{{ $p.minutes }} min read{{ end }}
-        </p>
-        <div>
-            <h3>{{ $p.title }}</h3>
-            {{- with $p.summary }}<p class="mt-4 max-w-2xl leading-relaxed text-ink-300 line-clamp-3">{{ . }}</p>{{ end }}
-            <span class="link-arrow mt-5">{{ if hasPrefix $p.link "https://medium.com" }}Read on Medium{{ else }}Read{{ end }} &rarr;</span>
-        </div>
+{{- $external := hasPrefix $p.link "http" -}}
+<article class="post-card">
+    <a href="{{ $p.link }}" class="flex h-full flex-col"
+       {{ if $external }}target="_blank" rel="noopener"{{ end }}>
         {{- if or $p.image $p.image_local }}
-        <div class="thumb order-first md:order-none">
+        <div class="thumb">
             {{- if $p.image -}}
             <img src="{{ $p.image }}" alt="" width="1024" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
             {{- else -}}
@@ -24,5 +16,17 @@
             {{- end -}}
         </div>
         {{- end }}
+
+        <p class="meta mt-4">
+            <time datetime="{{ $p.date.Format "2006-01-02" }}">{{ $p.date.Format "02 Jan 2006" }}</time>
+            {{- if $p.minutes }} &middot; {{ $p.minutes }} min read{{ end }}
+        </p>
+        <h3 class="mt-2 text-xl font-semibold leading-snug tracking-tight text-ink-100">{{ $p.title }}</h3>
+        {{- with $p.summary }}
+        <p class="mt-3 line-clamp-3 text-sm leading-relaxed text-ink-300">{{ . }}</p>
+        {{- end }}
+        <span class="link-arrow mt-auto pt-5">
+            {{ if hasPrefix $p.link "https://medium.com" }}Read on Medium{{ else }}Read{{ end }} &rarr;
+        </span>
     </a>
 </article>

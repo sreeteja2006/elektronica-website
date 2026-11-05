@@ -1,7 +1,6 @@
 {{- /* Context: dict "eyebrow" "title" "lede" (all optional except title) */ -}}
-<header class="shell pb-6 pt-14 lg:pt-20">
-    {{ with .eyebrow }}<p class="label" data-reveal>{{ . }}</p>{{ end }}
-    <h1 class="display mt-4 text-[clamp(4.5rem,15vw,13rem)]" data-reveal>{{ .title }}</h1>
-    {{ with .lede }}<p class="lede mt-10 max-w-2xl" data-reveal>{{ . }}</p>{{ end }}
-    <canvas data-wire class="mt-6 block h-14 w-full" aria-hidden="true"></canvas>
+<header class="shell pb-4 pt-16 lg:pt-24">
+    {{ with .eyebrow }}<p class="eyebrow" data-reveal>{{ . }}</p>{{ end }}
+    <h1 class="display mt-4 text-5xl sm:text-6xl lg:text-7xl" data-reveal>{{ .title }}</h1>
+    {{ with .lede }}<p class="lede mt-6 max-w-2xl" data-reveal>{{ . }}</p>{{ end }}
 </header>

@@ -1,93 +1,81 @@
 {{ define "main" }}
 {{ $blog := partialCached "blog-data.html" . }}
 
-<!-- Hero: the letters of the title grow out of a wire you can pluck -->
-<section id="hero" class="relative flex min-h-[calc(100svh-4rem)] overflow-hidden" data-hero>
-    <canvas id="wire" class="absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
+<!-- Hero: one pinned scene. Scrolling zooms from the board into a chip, its die,
+     a transistor, and finally the electrons carrying the signal. -->
+<section id="hero" data-journey aria-label="Zoom from a circuit board down to a single transistor">
+    <div class="relative h-[calc(100svh-4rem)] min-h-[34rem] overflow-hidden" data-stage>
+        <canvas class="absolute inset-0 h-full w-full" data-canvas aria-hidden="true"></canvas>
+        <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-ink-950 via-ink-950/85 to-ink-950/10" data-scrim aria-hidden="true"></div>
 
-    <div class="shell relative flex flex-1 flex-col pb-6 pt-10 lg:pb-8">
-        <p class="label order-1" data-hero-line>Electronics &amp; Signals Club &middot; IIT Hyderabad</p>
-        <h1 class="display order-4 mt-10 block whitespace-nowrap text-[clamp(3.5rem,17vw,16rem)]" data-hero-title>{{ .Site.Title }}</h1>
-        <h2 class="order-2 mt-6 max-w-4xl font-serif text-[clamp(1.9rem,3.6vw,3.4rem)] leading-[1.08] tracking-[-0.01em] text-ink-100" data-hero-line>
-            {{ .Site.Params.Moto }}
-        </h2>
-        <div class="order-3 mt-auto flex flex-col gap-6 pt-12 sm:flex-row sm:items-end sm:justify-between" data-hero-line>
-            <p class="max-w-md leading-relaxed text-ink-300">{{ .Site.Params.Description }}</p>
-            <div class="flex gap-8">
-                <a href="#blog" class="btn btn-primary">Read the blog <span aria-hidden="true">&darr;</span></a>
-                <a href="{{ "/team/" | relLangURL }}" class="btn">Meet the team <span aria-hidden="true">&rarr;</span></a>
+        <div class="shell relative pt-14 lg:pt-20" data-hero-copy>
+            <p class="eyebrow">Electronics &amp; Signals Club &middot; IIT Hyderabad</p>
+            <h1 class="display mt-5 text-[clamp(3rem,9vw,7rem)]">{{ .Site.Title }}</h1>
+            <h2 class="mt-6 max-w-2xl text-2xl font-normal leading-snug text-ink-100 sm:text-3xl">
+                {{ .Site.Params.Moto }}
+            </h2>
+            <p class="mt-4 max-w-xl text-base leading-relaxed text-ink-300 sm:text-lg">
+                {{ .Site.Params.Description }}
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+                <a href="#blog" class="btn btn-primary">Read the blog</a>
+                <a href="{{ "/team/" | relLangURL }}" class="btn btn-ghost">Meet the team</a>
             </div>
+        </div>
+
+        <div class="shell pointer-events-none absolute inset-x-0 bottom-5 items-end justify-between" data-hud aria-hidden="true">
+            <p class="meta bg-ink-950/80 px-2 py-1"><span data-hud-step>01 / 05</span> &middot; <span class="text-ink-100" data-hud-name>Board</span></p>
+            <p class="meta bg-ink-950/80 px-2 py-1"><span data-hud-hint>Scroll to zoom in &darr;</span><span class="hidden" data-hud-zoomwrap>Zoom <span class="text-ink-100" data-hud-zoom>1</span>&times;</span></p>
         </div>
     </div>
 </section>
 
-<!-- Our mission: a square wave is assembled from harmonics as you scroll -->
-<section id="mission" class="relative" aria-labelledby="mission-heading" data-mission>
-    <div class="shell flex min-h-[calc(100svh-4rem)] flex-col justify-between gap-12 pb-10 pt-20 lg:pt-16">
-        <div class="grid gap-10 lg:grid-cols-[1fr_auto] lg:gap-20">
-            <div class="max-w-4xl">
-                <h2 id="mission-heading" class="heading">{{ .Site.Params.P1.Heading }}</h2>
-                {{ range .Site.Params.P1.Content }}
-                {{ if strings.TrimSpace .text }}
-                <p class="mt-8 max-w-3xl font-serif text-[clamp(1.6rem,2.6vw,2.6rem)] leading-[1.15] tracking-[-0.005em] text-ink-100" data-words>{{ .text }}</p>
-                {{ end }}
-                {{ end }}
-            </div>
-
-            {{ with resources.Get .Site.Params.P1.Image }}
-            {{ $img := .Resize "640x webp q85" }}
-            <figure class="mission-plate" data-plate>
-                <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}"
-                     alt="X-ray image of a populated circuit board" loading="lazy" decoding="async" />
-            </figure>
+<!-- Our mission -->
+<section id="mission" class="relative section-pad" aria-labelledby="mission-heading">
+    <div class="shell grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
+        <div>
+            <h2 id="mission-heading" class="heading" data-reveal>{{ .Site.Params.P1.Heading }}</h2>
+            {{ range .Site.Params.P1.Content }}
+            {{ if strings.TrimSpace .text }}
+            <p class="lede mt-6" data-reveal>{{ .text }}</p>
+            {{ end }}
             {{ end }}
         </div>
 
-        <div>
-            <div class="mb-3 flex items-end justify-between gap-6">
-                <p class="label" aria-hidden="true">Square wave, summed from sine waves</p>
-                <p class="font-serif text-5xl leading-none text-solder-400 sm:text-6xl" aria-hidden="true"><span data-n>1</span><span class="ml-2 text-lg text-ink-400 sm:text-xl">harmonic<span data-n-s></span></span></p>
-            </div>
-            <div class="fourier"><canvas data-fourier aria-hidden="true"></canvas></div>
-        </div>
+        {{ with resources.Get .Site.Params.P1.Image }}
+        {{ $img := .Resize "960x webp q85" }}
+        <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}"
+             alt="X-ray image of a populated circuit board"
+             class="aspect-[4/3] w-full object-cover object-[50%_75%]"
+             style="filter: grayscale(1) contrast(1.05) brightness(0.85);"
+             loading="lazy" decoding="async" data-reveal />
+        {{ end }}
     </div>
 </section>
 
-<!-- Blog: a radio tuner. Each post is a station that locks in out of static. -->
-<section id="blog" class="relative pt-24 lg:pt-36" aria-labelledby="blog-heading">
-    <div class="shell pb-14">
-        <p class="label" data-reveal>Blog</p>
-        <h2 id="blog-heading" class="heading mt-4 max-w-5xl" data-reveal>{{ .Site.Params.P4.Heading }}</h2>
+<!-- Blog -->
+<section id="blog" class="relative section-pad" aria-labelledby="blog-heading">
+    <div class="shell">
+        <p class="eyebrow" data-reveal>Blog</p>
+        <h2 id="blog-heading" class="heading mt-3 max-w-3xl" data-reveal>{{ .Site.Params.P4.Heading }}</h2>
         {{ range .Site.Params.P4.Content }}
-        <p class="lede mt-6 max-w-2xl" data-reveal>{{ .text }}</p>
+        <p class="lede mt-5 max-w-2xl" data-reveal>{{ .text }}</p>
         {{ end }}
     </div>
 
-    <div class="tuner shell pb-24" data-tuner>
-        <div class="tuner-dial" data-dial aria-hidden="true">
-            <div class="mb-3 flex items-end justify-between">
-                <p class="label">FM</p>
-                <p class="font-serif text-5xl leading-none text-solder-400"><span data-freq>90.0</span><span class="ml-2 text-lg text-ink-400">MHz</span></p>
-            </div>
-            <div class="dial-scale" data-scale><div class="dial-needle" data-needle></div></div>
-        </div>
+    <div class="shell mt-12">
+        <div class="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+            {{ range $blog.posts }}
+            <div data-reveal>{{ partial "blog-card.html" (dict "post" .) }}</div>
+            {{ end }}
 
-        <div class="tuner-stage">
-            <ol class="tuner-stations" data-stations>
-                {{ range $blog.posts }}
-                <li class="tuner-station" data-station>{{ partial "station.html" (dict "post" .) }}</li>
-                {{ end }}
-                <li class="tuner-station" data-station>
-                    <a href="{{ site.Params.blog.medium_profile }}" target="_blank" rel="noopener" class="tuner-link no-media">
-                        <div class="tuner-copy">
-                            <p class="label" data-station-fade>Archive</p>
-                            <h3 class="tuner-title mt-3" data-station-title>More on Medium</h3>
-                            <span class="link-arrow mt-6" data-station-fade>Read all posts &rarr;</span>
-                        </div>
-                    </a>
-                </li>
-            </ol>
-            <canvas class="tuner-static" data-static aria-hidden="true"></canvas>
+            <div data-reveal>
+                <a href="{{ site.Params.blog.medium_profile }}" target="_blank" rel="noopener"
+                   class="group flex h-full min-h-[12rem] flex-col justify-between border-t border-ink-600 pt-5">
+                    <span class="meta">Archive</span>
+                    <span class="text-3xl font-semibold leading-tight tracking-tight text-ink-100 transition-colors group-hover:text-signal-300">More on Medium &rarr;</span>
+                </a>
+            </div>
         </div>
     </div>
 </section>
