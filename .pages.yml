@@ -1,0 +1,58 @@
+# Pages CMS (https://pagescms.org) config: gives club members a form to add, edit
+# and remove events, projects and team members. Saving commits to GitHub, and
+# Netlify rebuilds the site. Sign in at pagescms.org with GitHub and open this repo.
+media:
+  input: static/images/uploads
+  output: /images/uploads
+
+content:
+  - name: events
+    label: Events
+    type: file
+    path: data/events.yaml
+    fields:
+      - name: items
+        label: Events
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Title, type: string, required: true }
+          - { name: date, label: Date, type: date, required: true }
+          - { name: type, label: Type (Workshop, Talk, ...), type: string }
+          - { name: venue, label: Venue, type: string }
+          - { name: summary, label: Summary, type: text }
+          - { name: link, label: Link (optional), type: string }
+          - { name: placeholder, label: Placeholder (untick once real), type: boolean }
+  - name: projects
+    label: Projects
+    type: file
+    path: data/projects.yaml
+    fields:
+      - name: items
+        label: Projects
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Title, type: string, required: true }
+          - { name: summary, label: Summary, type: text }
+          - { name: status, label: Status, type: string }
+          - { name: tags, label: Tags, type: string, list: true }
+          - { name: link, label: Link (optional), type: string }
+          - { name: placeholder, label: Placeholder (untick once real), type: boolean }
+  - name: team
+    label: Team
+    type: file
+    path: data/team.yaml
+    fields:
+      - name: members
+        label: Members
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Name, type: string, required: true }
+          - { name: role, label: Role, type: string }
+          - { name: year, label: Year, type: string }
+          - { name: photo, label: Photo, type: image }
+          - { name: github, label: GitHub URL, type: string }
+          - { name: linkedin, label: LinkedIn URL, type: string }
+          - { name: placeholder, label: Placeholder (untick once real), type: boolean }

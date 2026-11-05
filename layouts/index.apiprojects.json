@@ -1,0 +1,7 @@
+{{- $items := slice -}}
+{{- range hugo.Data.projects.items -}}
+{{- if not .placeholder -}}
+{{- $items = $items | append (dict "title" .title "summary" .summary "status" .status "tags" .tags "link" .link) -}}
+{{- end -}}
+{{- end -}}
+{{- dict "club" site.Title "version" 1 "projects" $items | jsonify (dict "indent" "  ") -}}

@@ -7,3 +7,9 @@
 [build.environment]
   HUGO_VERSION = "0.169.0"
   NODE_VERSION = "20"
+
+# Let the SciTech site (or anyone) fetch each club's JSON feeds from the browser.
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"

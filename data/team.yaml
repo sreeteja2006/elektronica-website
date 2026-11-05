@@ -1,73 +1,169 @@
-# Team page data. Everything below is PLACEHOLDER content.
+# Team page data. Everything below is PLACEHOLDER content (22 slots, same as the old site).
 #
-# For each real member: fill in the fields and delete the `placeholder: true` line
-# (that removes the orange "placeholder" tag from their card).
+# Edit here, or use the /admin form (see .pages.yml). For each real member fill in
+# the fields and untick/delete `placeholder`.
 #
 #   name      required
 #   role      e.g. "Coordinator"
 #   year      free text, e.g. "B.Tech 2027"
-#   photo     path under static/, e.g. /images/team/Jane Doe.jpg  (leave "" for the icon)
+#   photo     path under static/, e.g. /images/team/jane.webp  (leave "" for a silhouette)
 #   github    full URL, optional
 #   linkedin  full URL, optional
 #
-# Add, remove or rename groups freely.
-#
-# NOTE: the previous member list (22 names with photos) is in git history,
-# in the `TeamMembers` section of config.yaml. The photos are still in
-# static/images/team/ but are very large (some 3-7 MB); compress them before using.
-groups:
-  - title: Coordinators
-    members:
-      - name: Member Name 01
-        role: Role
-        year: Year
-        photo: ""
-        github: ""
-        linkedin: ""
-        placeholder: true
-      - name: Member Name 02
-        role: Role
-        year: Year
-        photo: ""
-        github: ""
-        linkedin: ""
-        placeholder: true
-      - name: Member Name 03
-        role: Role
-        year: Year
-        photo: ""
-        github: ""
-        linkedin: ""
-        placeholder: true
-  - title: Members
-    members:
-      - name: Member Name 04
-        role: Role
-        year: Year
-        photo: ""
-        placeholder: true
-      - name: Member Name 05
-        role: Role
-        year: Year
-        photo: ""
-        placeholder: true
-      - name: Member Name 06
-        role: Role
-        year: Year
-        photo: ""
-        placeholder: true
-      - name: Member Name 07
-        role: Role
-        year: Year
-        photo: ""
-        placeholder: true
-      - name: Member Name 08
-        role: Role
-        year: Year
-        photo: ""
-        placeholder: true
-      - name: Member Name 09
-        role: Role
-        year: Year
-        photo: ""
-        placeholder: true
+# Photos: use ~800px wide, portrait or square, under 200 KB. The old photos in
+# static/images/team/ are 3-7 MB each; compress before using.
+members:
+  - name: Member Name 01
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 02
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 03
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 04
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 05
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 06
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 07
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 08
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 09
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 10
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 11
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 12
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 13
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 14
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 15
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 16
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 17
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 18
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 19
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 20
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 21
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true
+  - name: Member Name 22
+    role: Role
+    year: Year
+    photo: ""
+    github: ""
+    linkedin: ""
+    placeholder: true

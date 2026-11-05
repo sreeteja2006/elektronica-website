@@ -155,3 +155,12 @@ module:
     extended: true
     # `try` (0.141) is used for the Medium feed fetch, `hugo.Data` (0.156) for the data files.
     min: "0.156.0"
+
+# Machine-readable feeds for the future SciTech aggregator site.
+# Published at /api/events.json, /api/projects.json, /api/posts.json.
+outputFormats:
+  ApiEvents:   { mediaType: application/json, baseName: api/events,   isPlainText: true, notAlternative: true }
+  ApiProjects: { mediaType: application/json, baseName: api/projects, isPlainText: true, notAlternative: true }
+  ApiPosts:    { mediaType: application/json, baseName: api/posts,    isPlainText: true, notAlternative: true }
+outputs:
+  home: [HTML, RSS, ApiEvents, ApiProjects, ApiPosts]

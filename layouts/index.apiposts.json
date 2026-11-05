@@ -1,0 +1,6 @@
+{{- $blog := partialCached "blog-data.html" . -}}
+{{- $items := slice -}}
+{{- range $blog.posts -}}
+{{- $items = $items | append (dict "title" .title "link" .link "date" (.date.Format "2006-01-02") "summary" .summary) -}}
+{{- end -}}
+{{- dict "club" site.Title "version" 1 "posts" $items | jsonify (dict "indent" "  ") -}}
