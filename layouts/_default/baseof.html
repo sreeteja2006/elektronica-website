@@ -8,7 +8,7 @@
 <body class="min-h-screen bg-ink-950 font-sans text-ink-200 antialiased">
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-ink-100 focus:px-4 focus:py-2 focus:text-ink-950">Skip to content</a>
     {{ partial "nav.html" . }}
-    <main id="main" class="relative" data-pcb-root>
+    <main id="main">
         {{ block "main" . }}{{ end }}
     </main>
     {{ partial "footer.html" . }}

@@ -1,7 +1,8 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
-// Elektronica: dark, plain "bench" theme. Neutral graphite greys and ONE
-// muted accent (signal teal, taken from the logo and toned down). No other hues.
+// Elektronica: warm near-black "bench at night" theme with ONE accent,
+// solder orange. Type is Instrument Serif (display) + Instrument Sans (text).
+// There is no monospace anywhere on purpose.
 module.exports = {
   content: [
     './layouts/**/*.html',
@@ -13,26 +14,26 @@ module.exports = {
     extend: {
       colors: {
         ink: {
-          950: '#0b0d0e', // page
-          900: '#101314',
-          800: '#161a1c',
-          700: '#1e2326',
-          600: '#2a3034', // hairlines
-          500: '#3b4348',
-          400: '#7d878d', // muted text (5.4:1 on the page colour)
-          300: '#a3acb1',
-          200: '#c8cfd3', // body text
-          100: '#e8ecee', // headings
+          950: '#0d0b09', // page
+          900: '#131110',
+          800: '#1a1815',
+          700: '#23201c',
+          600: '#2f2b26', // hairlines
+          500: '#4a443c',
+          400: '#8c8478', // muted text (5.3:1 on the page colour)
+          300: '#b3ab9e',
+          200: '#d4cec3', // body text
+          100: '#f1ece2', // headings, "paper"
         },
-        signal: {
-          300: '#8fd0d9',
-          400: '#62b8c4', // the accent
-          500: '#4a9ba7',
+        solder: {
+          300: '#ffb066',
+          400: '#f08a2a', // the accent
+          500: '#cf6f12',
         },
       },
       fontFamily: {
-        sans: ['"IBM Plex Sans"', ...defaultTheme.fontFamily.sans],
-        mono: ['"IBM Plex Mono"', ...defaultTheme.fontFamily.mono],
+        sans: ['"Instrument Sans"', ...defaultTheme.fontFamily.sans],
+        serif: ['"Instrument Serif"', '"Times New Roman"', ...defaultTheme.fontFamily.serif],
       },
     },
   },

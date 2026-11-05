@@ -11,91 +11,88 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-ink-950 font-sans text-ink-200 antialiased;
+    @apply bg-ink-950 font-sans text-[1.0625rem] text-ink-200 antialiased;
     overflow-x: clip;
+    font-variant-numeric: tabular-nums;
+  }
+  [hidden] {
+    display: none !important;
   }
   ::selection {
-    background: theme('colors.signal.500');
-    color: #fff;
+    background: theme('colors.solder.400');
+    color: theme('colors.ink.950');
   }
   :focus-visible {
-    outline: 2px solid theme('colors.signal.400');
+    outline: 2px solid theme('colors.solder.400');
     outline-offset: 3px;
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
   }
+
+  /* Page-to-page crossfade in browsers that support view transitions. */
+  @view-transition {
+    navigation: auto;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.25s;
+  }
 }
 
 @layer components {
-  /* Page gutter. The left padding on desktop leaves room for the PCB rail. */
   .shell {
-    @apply mx-auto w-full max-w-6xl px-6 sm:px-10 lg:pl-24 lg:pr-10;
+    @apply mx-auto w-full max-w-[90rem] px-6 sm:px-10 lg:px-14;
   }
   .section-pad {
-    @apply py-20 lg:py-28;
+    @apply py-24 lg:py-36;
   }
 
-  /* Small mono label. */
-  .eyebrow {
-    @apply font-mono text-xs uppercase tracking-[0.18em] text-ink-400;
+  /* Small label in spaced capitals (this site's "small caps"). */
+  .label {
+    @apply text-[0.72rem] font-medium uppercase tracking-[0.16em] text-ink-400;
   }
   .display {
-    @apply font-sans font-semibold leading-[0.98] tracking-[-0.03em] text-ink-100;
+    @apply font-serif font-normal leading-[0.88] tracking-[-0.02em] text-ink-100;
   }
   .heading {
-    @apply font-sans text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-ink-100 sm:text-4xl lg:text-5xl;
+    @apply font-serif text-5xl font-normal leading-[0.95] tracking-[-0.015em] text-ink-100 sm:text-6xl lg:text-[5.5rem];
   }
   .lede {
     @apply text-lg leading-relaxed text-ink-300 sm:text-xl;
   }
 
-  /* Buttons: flat, square-ish, no glow. */
+  /* Links, not buttons: underlined text. */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-sm px-5 py-2.5 text-sm font-medium transition-colors duration-150;
+    @apply inline-flex items-center gap-2 border-b border-ink-500 pb-1 text-base font-medium text-ink-100 transition-colors duration-150;
+  }
+  .btn:hover {
+    @apply border-solder-400 text-solder-300;
   }
   .btn-primary {
-    @apply bg-ink-100 text-ink-950;
+    @apply border-solder-400;
   }
-  .btn-primary:hover {
-    @apply bg-white;
-  }
-  .btn-ghost {
-    @apply border border-ink-500 text-ink-100;
-  }
-  .btn-ghost:hover {
-    @apply border-ink-300;
-  }
-
-  /* Text link with an arrow. */
   .link-arrow {
-    @apply inline-flex items-center gap-2 text-sm font-medium text-signal-400 transition-colors;
+    @apply inline-flex items-center gap-2 text-base font-medium text-solder-400 transition-colors;
   }
   .link-arrow:hover {
-    @apply text-signal-300;
+    @apply text-solder-300;
   }
 
-  /* Plain metadata text (dates, venues, tags). */
-  .meta {
-    @apply font-mono text-xs uppercase tracking-[0.12em] text-ink-400;
-  }
-
-  /* Rows separated by hairlines. Used for team, projects, events. */
+  /* Hairline-ruled lists (team, projects, events, contact). */
   .rows > li {
     @apply border-t border-ink-600;
   }
   .rows > li:last-child {
     @apply border-b;
   }
-
-  /* Section label above a list. */
   .group-title {
-    @apply mb-6 font-mono text-xs uppercase tracking-[0.18em] text-ink-300;
+    @apply label mb-6 text-ink-300;
   }
 
   /* Navigation */
   .nav-link {
-    @apply relative px-3 py-2 text-sm text-ink-300 transition-colors;
+    @apply relative px-3 py-2 text-[0.95rem] text-ink-300 transition-colors;
   }
   .nav-link:hover,
   .nav-link[aria-current='page'] {
@@ -108,25 +105,31 @@
     right: 12px;
     bottom: 0;
     height: 1px;
-    background: theme('colors.signal.400');
+    background: theme('colors.solder.400');
+  }
+  .menu-link {
+    @apply block border-b border-ink-600 py-5 font-serif text-5xl leading-none text-ink-100;
+  }
+  .menu-link[aria-current='page'] {
+    @apply text-solder-400;
   }
 
-  /* Blog post: image, then text, ruled from the next post by a hairline. */
-  .post-card {
-    @apply flex h-full flex-col border-t border-ink-600 pt-5;
+  /* Blog index row: date | title + summary | thumbnail */
+  .post-row {
+    @apply grid gap-x-10 gap-y-4 border-t border-ink-600 py-8 md:grid-cols-[9rem_1fr_15rem];
   }
-  .post-card .thumb {
-    @apply aspect-[16/10] overflow-hidden bg-ink-800;
+  .post-row h3 {
+    @apply font-serif text-3xl leading-[1.02] tracking-[-0.01em] text-ink-100 transition-colors sm:text-4xl;
   }
-  .post-card .thumb img {
+  .post-row:hover h3 {
+    @apply text-solder-300;
+  }
+  .post-row .thumb {
+    @apply aspect-[4/3] overflow-hidden bg-ink-800;
+  }
+  .post-row .thumb img {
     @apply h-full w-full object-cover;
-    filter: saturate(0.85);
-  }
-  .post-card h3 {
-    @apply transition-colors;
-  }
-  .post-card:hover h3 {
-    @apply text-signal-300;
+    filter: saturate(0.8);
   }
 
   /* Elements the scroll animations reveal. They are only hidden once the
@@ -134,11 +137,11 @@
      motion is reduced, so the content never gets stuck invisible. */
   html.js-ready [data-reveal] {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(18px);
   }
   html.js [data-hero-title] {
     visibility: hidden;
-    animation: reveal-fallback 0s 1.6s forwards;
+    animation: reveal-fallback 0s 2s forwards;
   }
   @keyframes reveal-fallback {
     to { visibility: visible; }
@@ -152,80 +155,152 @@
     html.js [data-hero-title] { visibility: visible; animation: none; }
   }
 
-  /* Blog showcase: a swipeable row by default; on desktop assets/js/showcase.js
-     pins it and slides the track with the scroll (.is-pinned-mode). */
-  .showcase {
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x proximity;
-    scroll-padding-inline: 1.5rem;
-    scrollbar-width: thin;
-    scrollbar-color: theme('colors.ink.500') transparent;
-    padding-bottom: 1rem;
+  /* ---------- Mission scene (Fourier synthesis, pinned on desktop) ---------- */
+  .mission-plate {
+    @apply w-40 overflow-hidden bg-ink-800 sm:w-52 lg:w-[17vw] lg:max-w-[16rem];
   }
-  .showcase.is-pinned-mode {
-    overflow: hidden;
-    scroll-snap-type: none;
-    padding-bottom: 0;
-    /* Posts are cut off before they reach the PCB rail on the left. */
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, transparent 56px, #000 96px);
-    mask-image: linear-gradient(90deg, transparent 0, transparent 56px, #000 96px);
+  .mission-plate img {
+    @apply aspect-[3/4] w-full object-cover;
+    object-position: 50% 70%;
+    filter: grayscale(1) sepia(0.55) brightness(0.8) contrast(1.1);
   }
-  .showcase-track {
-    display: flex;
-    gap: 2rem;
-    width: max-content;
-    padding-inline: 1.5rem;
+  .fourier {
+    @apply relative h-56 w-full sm:h-72 lg:h-[34svh];
   }
-  @media (min-width: 640px) {
-    .showcase-track { padding-inline: 2.5rem; }
-  }
-  @media (min-width: 1024px) {
-    .showcase-track {
-      padding-left: max(6rem, calc((100% - 72rem) / 2 + 6rem));
-      padding-right: 6rem;
-    }
-  }
-  .showcase-item {
-    flex: none;
-    width: min(82vw, 23rem);
-    scroll-snap-align: start;
-  }
-  @media (min-width: 1024px) {
-    .showcase-item { width: 24rem; }
+  .fourier canvas {
+    @apply absolute inset-0 h-full w-full;
   }
 
-  /* PCB rail (drawn by assets/js/pcb.js) */
-  .pcb-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    pointer-events: none;
-    z-index: 0;
+  /* ---------- Blog as a radio tuner ----------
+     Mobile / reduced motion: a plain stacked list. On desktop tuner.js adds
+     .is-tuner, pins the stage and tunes between stations as you scroll. */
+  .tuner-dial {
+    display: none;
+  }
+  .tuner-static {
+    display: none;
+  }
+  .tuner-stations {
+    @apply flex flex-col gap-16;
+  }
+  .tuner-link {
+    @apply grid gap-6 sm:gap-8;
+  }
+  .tuner-media {
+    @apply aspect-[4/3] overflow-hidden bg-ink-800;
+  }
+  .tuner-media img {
+    @apply h-full w-full object-cover;
+  }
+  .tuner-title {
+    @apply font-serif text-4xl leading-[1] tracking-[-0.015em] text-ink-100;
+  }
+  .tuner-summary {
+    @apply mt-4 max-w-xl leading-relaxed text-ink-300;
+  }
+  .tuner-link:hover .tuner-title {
+    @apply text-solder-300;
+  }
+
+  .tuner.is-tuner {
+    position: relative;
+    height: calc(100svh - 4rem);
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
   }
-  .pcb-pad {
-    fill: theme('colors.ink.950');
-    stroke: theme('colors.ink.500');
-    stroke-width: 1.5;
-    transition: stroke 0.4s ease;
+  .tuner.is-tuner {
+    padding-bottom: 1.25rem;
   }
-  .pcb-dot {
-    fill: theme('colors.ink.500');
-    transition: fill 0.4s ease;
+  .tuner.is-tuner .tuner-dial {
+    display: block;
+    flex: none;
+    padding-top: 1.25rem;
   }
-  .pcb-node.lit .pcb-pad {
-    stroke: theme('colors.signal.400');
+  .tuner.is-tuner .tuner-stage {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    margin-top: 1rem;
   }
-  .pcb-node.lit .pcb-dot {
-    fill: theme('colors.signal.400');
+  .tuner.is-tuner .tuner-stations {
+    display: block;
+    position: absolute;
+    inset: 0;
+  }
+  .tuner.is-tuner .tuner-station {
+    position: absolute;
+    inset: 0;
+    visibility: hidden;
+  }
+  .tuner.is-tuner .tuner-link {
+    height: 100%;
+    grid-template-columns: 5fr 7fr;
+    gap: clamp(2rem, 5vw, 6rem);
+    align-items: center;
+    padding-bottom: 1rem;
+  }
+  .tuner.is-tuner .tuner-link.no-media {
+    grid-template-columns: 1fr;
+  }
+  .tuner.is-tuner .tuner-media {
+    max-height: 100%;
+  }
+  .tuner.is-tuner .tuner-title {
+    font-size: clamp(2.25rem, 4.6vw, 4.75rem);
+    line-height: 0.98;
+  }
+  .tuner.is-tuner .tuner-static {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    image-rendering: pixelated;
+  }
+
+  /* Dial scale */
+  .dial-scale {
+    position: relative;
+    height: 2.75rem;
+    border-bottom: 1px solid theme('colors.ink.500');
+  }
+  .dial-tick {
+    position: absolute;
+    bottom: 0;
+    width: 1px;
+    background: theme('colors.ink.500');
+  }
+  .dial-num {
+    position: absolute;
+    bottom: 1.25rem;
+    transform: translateX(-50%);
+    @apply text-[0.7rem] font-medium text-ink-400;
+  }
+  .dial-station {
+    position: absolute;
+    bottom: -3px;
+    width: 5px;
+    height: 5px;
+    border-radius: 9999px;
+    transform: translateX(-50%);
+    background: theme('colors.solder.400');
+  }
+  .dial-needle {
+    position: absolute;
+    top: 0;
+    bottom: -1px;
+    width: 2px;
+    margin-left: -1px;
+    background: theme('colors.solder.400');
   }
 
   /* Marks content that still needs real data from the club. Remove the
      `placeholder: true` flag in data/*.yaml and the tag disappears. */
   .placeholder-tag {
-    @apply inline-flex items-center rounded-sm border border-dashed border-ink-400 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-300;
+    @apply inline-flex items-center rounded-sm border border-dashed border-ink-400 px-1.5 py-0.5 text-[0.65rem] font-medium uppercase tracking-[0.14em] text-ink-300;
   }
 }
 
@@ -235,7 +310,7 @@
   --tw-prose-body: theme('colors.ink.200');
   --tw-prose-headings: theme('colors.ink.100');
   --tw-prose-bold: theme('colors.ink.100');
-  --tw-prose-links: theme('colors.signal.400');
+  --tw-prose-links: theme('colors.solder.400');
   --tw-prose-hr: theme('colors.ink.600');
   --tw-prose-quotes: theme('colors.ink.100');
   --tw-prose-quote-borders: theme('colors.ink.500');
@@ -245,8 +320,8 @@
   --tw-prose-counters: theme('colors.ink.400');
 }
 .prose-ek :where(a) {
-  @apply underline decoration-signal-400/40 underline-offset-4;
+  @apply underline decoration-solder-400/40 underline-offset-4;
 }
 .prose-ek :where(h1, h2, h3, h4) {
-  @apply font-sans font-semibold;
+  @apply font-serif font-normal;
 }

@@ -8,14 +8,14 @@
 
         <ul class="rows">
             {{ range $group.members }}
-            <li class="flex flex-wrap items-center gap-x-6 gap-y-1 py-5" data-reveal>
+            <li class="flex flex-wrap items-center gap-x-6 gap-y-1 py-6" data-reveal>
                 {{ if .photo }}
                 <img src="{{ .photo }}" alt="" width="56" height="56" loading="lazy" decoding="async"
                      class="h-14 w-14 rounded-sm object-cover" />
                 {{ end }}
-                <h3 class="min-w-[8rem] flex-1 text-lg font-medium text-ink-100">{{ .name }}</h3>
-                <p class="meta w-full sm:w-44">{{ with .role }}{{ . }}{{ end }}</p>
-                <p class="meta w-full sm:w-16">{{ with .year }}{{ . }}{{ end }}</p>
+                <h3 class="min-w-[8rem] flex-1 font-serif text-3xl leading-none text-ink-100 sm:text-4xl">{{ .name }}</h3>
+                <p class="label w-full sm:w-44">{{ with .role }}{{ . }}{{ end }}</p>
+                <p class="label w-full sm:w-16">{{ with .year }}{{ . }}{{ end }}</p>
                 <div class="flex items-center gap-4 text-ink-400 sm:ml-2 sm:min-w-[7rem] sm:justify-end">
                     {{ if .placeholder }}<span class="placeholder-tag">placeholder</span>{{ end }}
                     {{ with .github }}
