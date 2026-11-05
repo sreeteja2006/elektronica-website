@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html lang="{{ .Language.Lang }}">
+<html lang="{{ site.Language.Lang }}">
 
 <head>
     {{ partial "head.html" . }}
 </head>
 
-<body class="bg-zinc-100 dark:bg-gray-800">
+<body class="min-h-screen bg-ink-950 font-sans text-slate-300 antialiased">
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded focus:bg-volt-400 focus:px-4 focus:py-2 focus:text-ink-950">Skip to content</a>
     {{ partial "nav.html" . }}
-    {{ block "main" . }}{{ end }}
-    {{ partial "footer" . }}
+    <main id="main" class="relative" data-pcb-root>
+        {{ block "main" . }}{{ end }}
+    </main>
+    {{ partial "footer.html" . }}
+    {{ partial "scripts.html" . }}
 </body>
 
 </html>

@@ -1,0 +1,39 @@
+# Projects page data. Everything below is PLACEHOLDER content.
+#
+# For each real project: fill in the fields and delete the `placeholder: true` line.
+#
+#   title     required
+#   summary   one or two sentences
+#   tags      list of short labels, e.g. [Arduino, PCB]
+#   status    e.g. "Completed", "In progress"
+#   link      GitHub / demo / write-up URL, optional (adds a "View" link)
+#   image     path under assets/, e.g. images/projects/robot.webp, optional
+items:
+  - title: Project title
+    summary: A short description of the project goes here. Replace this placeholder with the real project details.
+    tags: [Tag, Tag]
+    status: Status
+    link: ""
+    image: ""
+    placeholder: true
+  - title: Project title
+    summary: A short description of the project goes here. Replace this placeholder with the real project details.
+    tags: [Tag, Tag]
+    status: Status
+    link: ""
+    image: ""
+    placeholder: true
+  - title: Project title
+    summary: A short description of the project goes here. Replace this placeholder with the real project details.
+    tags: [Tag, Tag]
+    status: Status
+    link: ""
+    image: ""
+    placeholder: true
+  - title: Project title
+    summary: A short description of the project goes here. Replace this placeholder with the real project details.
+    tags: [Tag, Tag]
+    status: Status
+    link: ""
+    image: ""
+    placeholder: true

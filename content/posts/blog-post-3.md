@@ -1,6 +1,7 @@
 ---
 title: "SPARC - The ISA used on the S-400 missile system"
 slug: "blog-post-3"
+link: "https://medium.com/@elektronica/sparc-the-isa-used-on-the-s-400-missile-system-9d13b8502b0b"
 draft: false
 language: en
 featured_image: ../assets/images/posts/blog-3.webp

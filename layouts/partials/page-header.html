@@ -1,0 +1,6 @@
+{{- /* Context: dict "eyebrow" "title" "lede" (all optional except title) */ -}}
+<header class="shell pb-4 pt-16 lg:pt-24">
+    {{ with .eyebrow }}<p class="eyebrow" data-reveal>{{ . }}</p>{{ end }}
+    <h1 class="display mt-4 text-5xl sm:text-6xl lg:text-7xl" data-pad data-reveal>{{ .title }}</h1>
+    {{ with .lede }}<p class="lede mt-6 max-w-2xl" data-reveal>{{ . }}</p>{{ end }}
+</header>

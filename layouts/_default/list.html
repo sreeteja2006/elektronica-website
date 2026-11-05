@@ -1,27 +1,15 @@
 {{ define "main" }}
-<main>
-    <article>
-        <header class="mb-4 bg-primary-600">
-            <span class="py-96">
-                <h1 class="py-16 text-5xl font-black text-center text-white capitalize">
-                    {{ .Title }}
-                </h1>
-            </span>
-        </header>
-        {{ with .Content }}
-        <div class="max-w-2xl px-6 mx-auto mt-6 prose dark:prose-invert dark:text-white">
-            {{- . -}}
+{{ $blog := partialCached "blog-data.html" . }}
+{{ partial "page-header.html" (dict "title" .Title) }}
+
+<section class="section-pad pt-12 lg:pt-12">
+    <div class="shell">
+        {{ with .Content }}<div class="prose-ek mb-12 max-w-3xl">{{ . }}</div>{{ end }}
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {{ range $blog.posts }}
+            <div data-reveal>{{ partial "blog-card.html" (dict "post" .) }}</div>
+            {{ end }}
         </div>
-        {{ end }}
-        <div class="posts-list">
-            {{ $paginator := .Paginate (where .Site.RegularPages "Section" "posts") }}
-                {{ range $paginator.Pages }}
-                    {{ partial "posts-template.html" . }}
-                {{ end }}
-        </div>
-    </article>
-    <div class="max-w-xl mx-auto my-16">
-        {{ partial "pagination" . }}
     </div>
-</main>
+</section>
 {{ end }}

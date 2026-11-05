@@ -1,0 +1,93 @@
+{{- /*
+  Returns: dict "source" ("medium" or "local") "posts" (slice of dicts)
+
+  Posts come from the Medium RSS feed in params.blog.medium_feed, fetched when
+  the site is built. If the feed can't be fetched or parsed, the markdown posts
+  in content/posts/ are used instead, so a build never fails because of Medium.
+
+  Each post dict has: title, link, date, summary, image (remote URL) or
+  image_local (path under assets/), tags, minutes (0 = unknown).
+*/ -}}
+{{- $cfg := site.Params.blog -}}
+{{- $max := int (default 10 $cfg.max_posts) -}}
+{{- $posts := slice -}}
+{{- $source := "local" -}}
+
+{{- with $cfg.medium_feed -}}
+  {{- $opts := dict "headers" (dict "User-Agent" "elektronica-iith-site-build/1.0 (+https://elektronica.iith.dev)" "Accept" "application/rss+xml, application/xml;q=0.9, */*;q=0.8") -}}
+  {{- with try (resources.GetRemote . $opts) -}}
+    {{- with .Err -}}
+      {{- warnf "blog: could not fetch the Medium feed (%v). Using the posts in content/posts instead." . -}}
+    {{- else with .Value -}}
+      {{- range findRE `(?s)<item>.*?</item>` .Content -}}
+        {{- $item := . -}}
+
+        {{- $title := "" -}}
+        {{- with findRESubmatch `(?s)<title>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</title>` $item 1 -}}
+          {{- $title = index (index . 0) 1 | htmlUnescape | strings.TrimSpace -}}
+        {{- end -}}
+
+        {{- $link := "" -}}
+        {{- with findRESubmatch `<link>\s*(.*?)\s*</link>` $item 1 -}}
+          {{- $link = replaceRE `\?.*$` "" (index (index . 0) 1) -}}
+        {{- end -}}
+
+        {{- $date := now -}}
+        {{- with findRESubmatch `<pubDate>\s*(.*?)\s*</pubDate>` $item 1 -}}
+          {{- $date = time.AsTime (index (index . 0) 1) -}}
+        {{- end -}}
+
+        {{- $tags := slice -}}
+        {{- range findRESubmatch `(?s)<category>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</category>` $item -}}
+          {{- $tags = $tags | append (index . 1) -}}
+        {{- end -}}
+
+        {{- $html := "" -}}
+        {{- with findRESubmatch `(?s)<content:encoded><!\[CDATA\[(.*?)\]\]></content:encoded>` $item 1 -}}
+          {{- $html = index (index . 0) 1 -}}
+        {{- end -}}
+
+        {{- /* First real image in the article (skips Medium's 1x1 tracking pixel). */ -}}
+        {{- $image := "" -}}
+        {{- range findRESubmatch `<img[^>]*?src="([^"]+)"` $html -}}
+          {{- if and (not $image) (not (strings.Contains (index . 1) "/_/stat")) -}}
+            {{- $image = index . 1 -}}
+          {{- end -}}
+        {{- end -}}
+
+        {{- /* First paragraph with enough text to work as a summary. */ -}}
+        {{- $summary := "" -}}
+        {{- range findRESubmatch `(?s)<p>(.*?)</p>` $html -}}
+          {{- $t := index . 1 | plainify | htmlUnescape | strings.TrimSpace -}}
+          {{- if and (not $summary) (ge (len $t) 60) -}}
+            {{- $summary = strings.Truncate 190 $t -}}
+          {{- end -}}
+        {{- end -}}
+
+        {{- $minutes := 0 -}}
+        {{- if $html -}}
+          {{- $minutes = int (math.Max 1 (math.Ceil (div (float (countwords (plainify $html))) 220))) -}}
+        {{- end -}}
+
+        {{- if and $title $link -}}
+          {{- $posts = $posts | append (dict "title" $title "link" $link "date" $date "summary" $summary "image" $image "tags" $tags "minutes" $minutes) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if gt (len $posts) 0 -}}
+  {{- $source = "medium" -}}
+  {{- $posts = sort $posts "date" "desc" -}}
+{{- else -}}
+  {{- range sort (where site.RegularPages "Section" "posts") "Date" "desc" -}}
+    {{- $img := "" -}}
+    {{- with .Params.featured_image -}}
+      {{- $img = strings.TrimPrefix "../assets/" . -}}
+    {{- end -}}
+    {{- $posts = $posts | append (dict "title" .Title "link" (.Params.link | default .RelPermalink) "date" .Date "summary" .Params.summary "image_local" $img "tags" slice "minutes" 0) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return (dict "source" $source "posts" (first $max $posts)) -}}

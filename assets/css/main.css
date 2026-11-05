@@ -1,28 +1,285 @@
-/* assets */ 
+/* Elektronica styles. Compile with:
+   tailwindcss -i ./assets/css/main.css -o ./assets/css/style.css --minify */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-font-family: ui-sans-serif,
-system-ui,
--apple-system,
-BlinkMacSystemFont,
-"Segoe UI",
-Roboto,
-"Helvetica Neue",
-Arial,
-"Noto Sans",
-sans-serif,
-Apple Color Emoji,
-Segoe UI Emoji,
-NotoColorEmoji,
-Segoe UI Symbol,
-Android Emoji,
-EmojiSymbols;
-/* Custom CSS */
-
-.prose :where(h1):not(:where([class~="not-prose"] *)) {
-    color: white !important;
+@layer base {
+  html {
+    color-scheme: dark;
+    background: theme('colors.ink.950');
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ink-950 font-sans text-slate-300 antialiased;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: rgb(61 230 255 / 0.3);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid theme('colors.volt.400');
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
 }
 
-/* Custom CSS end */
+@layer components {
+  /* Page gutter. The left padding on desktop leaves room for the PCB bus. */
+  .shell {
+    @apply mx-auto w-full max-w-6xl px-6 sm:px-10 lg:pl-24 lg:pr-10;
+  }
+  .section-pad {
+    @apply py-20 lg:py-28;
+  }
+
+  .eyebrow {
+    @apply font-mono text-xs uppercase tracking-[0.28em] text-volt-400;
+  }
+  .display {
+    @apply font-sans font-bold leading-[0.95] tracking-tight text-white;
+  }
+  .heading {
+    @apply font-sans text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl;
+  }
+  .lede {
+    @apply text-lg leading-relaxed text-slate-400 sm:text-xl;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 font-mono text-sm font-medium uppercase tracking-wider transition duration-200;
+  }
+  .btn-primary {
+    @apply bg-volt-400 text-ink-950;
+    box-shadow: 0 0 0 0 rgb(61 230 255 / 0);
+  }
+  .btn-primary:hover {
+    @apply bg-volt-300;
+    box-shadow: 0 0 28px 2px rgb(61 230 255 / 0.45);
+  }
+  .btn-ghost {
+    @apply border border-ink-500 text-slate-200;
+  }
+  .btn-ghost:hover {
+    @apply border-volt-400 text-volt-300;
+    box-shadow: inset 0 0 18px rgb(61 230 255 / 0.12);
+  }
+
+  .chip {
+    @apply inline-flex items-center rounded border border-ink-600 bg-ink-800/80 px-2 py-0.5 font-mono text-[11px] uppercase tracking-wider text-slate-400;
+  }
+
+  /* Oscilloscope graticule + scanlines */
+  .grat {
+    background-image:
+      linear-gradient(rgb(61 230 255 / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(61 230 255 / 0.06) 1px, transparent 1px),
+      linear-gradient(rgb(61 230 255 / 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(61 230 255 / 0.025) 1px, transparent 1px);
+    background-size: 96px 96px, 96px 96px, 19.2px 19.2px, 19.2px 19.2px;
+  }
+  .scanlines::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg, rgb(0 0 0 / 0.22) 0, rgb(0 0 0 / 0.22) 1px, transparent 1px, transparent 3px);
+    mix-blend-mode: multiply;
+  }
+
+  /* Instrument-style panel with corner brackets */
+  .panel {
+    @apply relative border border-ink-600/80 bg-ink-900/70 backdrop-blur-sm;
+  }
+  .panel::before,
+  .panel::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+    border-color: theme('colors.volt.400');
+    opacity: 0.85;
+  }
+  .panel::before {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid;
+    border-left: 2px solid;
+  }
+  .panel::after {
+    right: -1px;
+    bottom: -1px;
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+  }
+
+  /* Nav links with a trace underline */
+  .nav-link {
+    @apply relative px-3 py-2 font-mono text-[13px] uppercase tracking-wider text-slate-400 transition-colors;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 2px;
+    height: 2px;
+    background: theme('colors.volt.400');
+    box-shadow: 0 0 10px theme('colors.volt.400');
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  .nav-link:hover,
+  .nav-link[aria-current='page'] {
+    @apply text-white;
+  }
+  .nav-link:hover::after,
+  .nav-link[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+
+  /* Blog cards */
+  .post-card {
+    @apply panel flex h-full flex-col overflow-hidden transition-colors duration-300;
+    transform-style: preserve-3d;
+  }
+  .post-card:hover {
+    border-color: rgb(61 230 255 / 0.6);
+  }
+  .post-card .thumb {
+    @apply relative aspect-[16/10] overflow-hidden bg-ink-800;
+  }
+  .post-card .thumb img {
+    @apply h-full w-full object-cover transition duration-500;
+    filter: saturate(0.85) contrast(1.05);
+  }
+  .post-card:hover .thumb img {
+    transform: scale(1.06);
+    filter: saturate(1.1) contrast(1.05);
+  }
+
+  /* Elements the scroll animations reveal. They are only hidden once the
+     script is running (js-ready), and shown again if it fails (js-failed) or
+     motion is reduced, so the content never gets stuck invisible. */
+  html.js-ready [data-reveal] {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  html.js [data-hero-title] {
+    visibility: hidden;
+    animation: reveal-fallback 0s 1.6s forwards;
+  }
+  @keyframes reveal-fallback {
+    to { visibility: visible; }
+  }
+  html.js-failed [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html.js-ready [data-reveal] { opacity: 1; transform: none; }
+    html.js [data-hero-title] { visibility: visible; animation: none; }
+  }
+
+  /* Blog showcase: a swipeable row by default; on desktop assets/js/showcase.js
+     pins it and slides the track with the scroll (.is-pinned-mode). */
+  .showcase {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: 1.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.ink.500') transparent;
+    padding-bottom: 1rem;
+  }
+  .showcase.is-pinned-mode {
+    overflow: hidden;
+    scroll-snap-type: none;
+    padding-bottom: 0;
+    /* Cards fade out before they reach the PCB bus on the left. */
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, transparent 56px, #000 120px);
+    mask-image: linear-gradient(90deg, transparent 0, transparent 56px, #000 120px);
+  }
+  .showcase-track {
+    display: flex;
+    gap: 1.5rem;
+    width: max-content;
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 640px) {
+    .showcase-track { padding-inline: 2.5rem; }
+  }
+  @media (min-width: 1024px) {
+    .showcase-track {
+      padding-left: max(6rem, calc((100% - 72rem) / 2 + 6rem));
+      padding-right: 6rem;
+    }
+  }
+  .showcase-item {
+    flex: none;
+    width: min(82vw, 24rem);
+    scroll-snap-align: start;
+  }
+  @media (min-width: 1024px) {
+    .showcase-item { width: 25rem; }
+  }
+
+  /* PCB bus (drawn by assets/js/pcb.js) */
+  .pcb-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .pcb-pad {
+    fill: theme('colors.ink.950');
+    stroke: theme('colors.ink.500');
+    stroke-width: 2;
+    transition: stroke 0.4s ease, fill 0.4s ease;
+  }
+  .pcb-dot {
+    fill: theme('colors.ink.500');
+    transition: fill 0.4s ease;
+  }
+  .pcb-node.lit .pcb-pad {
+    stroke: theme('colors.phos.400');
+    fill: rgb(61 255 143 / 0.22);
+  }
+  .pcb-node.lit .pcb-dot {
+    fill: theme('colors.phos.400');
+  }
+
+  /* Marks content that still needs real data from the club. Remove the
+     `placeholder: true` flag in data/*.yaml and the tag disappears. */
+  .placeholder-tag {
+    @apply inline-flex items-center rounded border border-copper-400/50 bg-copper-400/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-copper-300;
+  }
+
+  .link-arrow {
+    @apply inline-flex items-center gap-2 font-mono text-sm uppercase tracking-wider text-volt-400 transition;
+  }
+  .link-arrow:hover {
+    @apply gap-3 text-volt-300;
+  }
+}
+
+/* Long-form text (single posts, about) */
+.prose-ek {
+  @apply prose prose-invert max-w-none;
+}
+.prose-ek :where(a) {
+  @apply text-volt-400 underline decoration-volt-400/40 underline-offset-4;
+}
+.prose-ek :where(h1, h2, h3, h4) {
+  @apply font-sans text-white;
+}

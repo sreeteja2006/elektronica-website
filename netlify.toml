@@ -1,0 +1,9 @@
+# Netlify build settings. If you deploy somewhere else, the important part is
+# Hugo extended >= 0.156 and Node (for the Tailwind step in `npm run build`).
+[build]
+  publish = "public"
+  command = "npm install && npm run build:css && hugo --gc --minify -b \"$URL\""
+
+[build.environment]
+  HUGO_VERSION = "0.169.0"
+  NODE_VERSION = "20"

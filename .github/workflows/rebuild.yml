@@ -1,0 +1,28 @@
+# The blog section pulls Medium posts when the site is BUILT, and the Events page
+# splits upcoming/past events at build time. This rebuilds the site every day so
+# both stay fresh without anyone touching the repo.
+#
+# One-time setup:
+#   1. Netlify: Site configuration > Build & deploy > Build hooks > add a hook.
+#   2. GitHub: Settings > Secrets and variables > Actions > new secret
+#      named NETLIFY_BUILD_HOOK with the hook URL.
+name: Daily rebuild
+
+on:
+  schedule:
+    - cron: "30 3 * * *" # 09:00 IST
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Netlify build hook
+        env:
+          HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "NETLIFY_BUILD_HOOK secret is not set, skipping."
+            exit 0
+          fi
+          curl -fsS -X POST -d '{}' "$HOOK"

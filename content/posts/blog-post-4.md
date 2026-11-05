@@ -1,6 +1,7 @@
 ---
 title: "AI-powered hearing aids: How modern signal processing is transforming accessibility"
 slug: "blog-post-4"
+link: "https://medium.com/@elektronica/ai-powered-hearing-aids-how-modern-signal-processing-is-transforming-accessibility-8e288b60db32"
 draft: false
 language: en
 featured_image: ../assets/images/posts/blog-4.webp

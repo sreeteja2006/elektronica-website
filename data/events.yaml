@@ -1,0 +1,35 @@
+# Events page data. Everything below is PLACEHOLDER content.
+#
+# For each real event: fill in the fields and delete the `placeholder: true` line.
+# Events dated today or later show under "Upcoming", earlier ones under "Past".
+# The split is worked out when the site is built, so rebuild it regularly
+# (the daily rebuild workflow in .github/workflows does this).
+#
+#   date      required, YYYY-MM-DD (keep the quotes)
+#   title     required
+#   summary   one or two sentences
+#   type      e.g. "Workshop", "Talk", "Competition"
+#   venue     free text
+#   link      registration / details URL, optional
+items:
+  - date: "2026-12-15"
+    title: Event title
+    summary: A short description of the event goes here. Replace this placeholder with the real event details.
+    type: Type
+    venue: Venue
+    link: ""
+    placeholder: true
+  - date: "2026-09-01"
+    title: Event title
+    summary: A short description of the event goes here. Replace this placeholder with the real event details.
+    type: Type
+    venue: Venue
+    link: ""
+    placeholder: true
+  - date: "2026-03-10"
+    title: Event title
+    summary: A short description of the event goes here. Replace this placeholder with the real event details.
+    type: Type
+    venue: Venue
+    link: ""
+    placeholder: true

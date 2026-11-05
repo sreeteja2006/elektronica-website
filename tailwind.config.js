@@ -1,101 +1,58 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
-// tailwind.config.js
+// Elektronica: dark "bench" theme. The logo's LED-cyan is the brand colour,
+// phosphor green is for live signals, copper/amber is for highlights.
 module.exports = {
-  content: ['./layouts/**/*.html', './content/**/*.md'],
-  darkMode: 'class',
+  content: [
+    './layouts/**/*.html',
+    './content/**/*.md',
+    './assets/js/**/*.js',
+    '!./assets/js/vendor/**',
+  ],
   theme: {
     extend: {
       colors: {
-        transparent: 'transparent',
-        current: 'currentColor',
-        'primary': {
-          DEFAULT: '#6366F1',
-          50: '#FFFFFF',
-          100: '#F9F9FE',
-          200: '#D3D4FB',
-          300: '#AEAFF8',
-          400: '#888BF4',
-          500: '#6366F1',
-          600: '#3034EC',
-          700: '#1317D1',
-          800: '#0E119E',
-          900: '#0A0C6A'
+        ink: {
+          950: '#04070b',
+          900: '#070c12',
+          800: '#0c141c',
+          700: '#121d28',
+          600: '#1b2a38',
+          500: '#2a3d4f',
+          400: '#4a6178',
+          300: '#7890a6',
         },
-        'secondary': {
-          DEFAULT: '#EC4899',
-          50: '#FDEEF6',
-          100: '#FBDCEB',
-          200: '#F8B7D7',
-          300: '#F492C2',
-          400: '#F06DAE',
-          500: '#EC4899',
-          600: '#E4187D',
-          700: '#B11261',
-          800: '#7F0D45',
-          900: '#4C0829'
+        volt: {
+          300: '#7df3ff',
+          400: '#3de6ff',
+          500: '#14c8e6',
+          600: '#0aa3bf',
         },
-        'neutral': {
-          DEFAULT: '#6B7280',
-          50: '#CDD0D5',
-          100: '#C2C5CC',
-          200: '#ACB0BA',
-          300: '#969BA7',
-          400: '#7F8694',
-          500: '#6B7280',
-          600: '#515761',
-          700: '#383C43',
-          800: '#1E2024',
-          900: '#050506'
+        phos: {
+          300: '#8dffb9',
+          400: '#3dff8f',
+          500: '#1fd96f',
         },
-        // To change these, use https://www.tailwindshades.com/ with https://tailwindcss.com/docs/customizing-colors or create your own custom colors.
+        copper: {
+          300: '#ffd37a',
+          400: '#ffb020',
+          500: '#e8930c',
+        },
       },
-      lineHeight: {
-        'extra-loose': '2.5',
-        '12': '3rem',
+      fontFamily: {
+        sans: ['"Space Grotesk"', ...defaultTheme.fontFamily.sans],
+        mono: ['"JetBrains Mono"', ...defaultTheme.fontFamily.mono],
       },
-      typography: (theme) => ({
-        DEFAULT: {
-          css: {
-            '--tw-prose-body': theme('colors.zinc[800]'),
-            '--tw-prose-headings': theme('colors.zinc[900]'),
-            '--tw-prose-lead': theme('colors.zinc[700]'),
-            '--tw-prose-links': theme('colors.zinc[900]'),
-            '--tw-prose-bold': theme('colors.zinc[900]'),
-            '--tw-prose-counters': theme('colors.zinc[600]'),
-            '--tw-prose-bullets': theme('colors.zinc[400]'),
-            '--tw-prose-hr': theme('colors.zinc[300]'),
-            '--tw-prose-quotes': theme('colors.zinc[900]'),
-            '--tw-prose-quote-borders': theme('colors.zinc[300]'),
-            '--tw-prose-captions': theme('colors.zinc[700]'),
-            '--tw-prose-code': theme('colors.indigo[500]'),
-            '--tw-prose-pre-code': theme('colors.indigo[300]'),
-            '--tw-prose-pre-bg': theme('colors.gray[900]'),
-            '--tw-prose-th-borders': theme('colors.zinc[300]'),
-            '--tw-prose-td-borders': theme('colors.zinc[200]'),
-            '--tw-prose-invert-body': theme('colors.zinc[200]'),
-            '--tw-prose-invert-headings': theme('colors.white'),
-            '--tw-prose-invert-lead': theme('colors.zinc[300]'),
-            '--tw-prose-invert-links': theme('colors.indigo[400]'),
-            '--tw-prose-invert-bold': theme('colors.white'),
-            '--tw-prose-invert-counters': theme('colors.zinc[400]'),
-            '--tw-prose-invert-bullets': theme('colors.zinc[200]'),
-            '--tw-prose-invert-hr': theme('colors.zinc[500]'),
-            '--tw-prose-invert-quotes': theme('colors.zinc[100]'),
-            '--tw-prose-invert-quote-borders': theme('colors.zinc[700]'),
-            '--tw-prose-invert-captions': theme('colors.zinc[400]'),
-            '--tw-prose-invert-code': theme('colors.indigo[400]'),
-            '--tw-prose-invert-pre-code': theme('colors.indigo[300]'),
-            '--tw-prose-invert-pre-bg': theme('colors.gray[900]'),
-            '--tw-prose-invert-th-borders': theme('colors.zinc[100]'),
-            '--tw-prose-invert-td-borders': theme('colors.zinc[500]'),
-          },
+      keyframes: {
+        blink: {
+          '0%, 49%': { opacity: '1' },
+          '50%, 100%': { opacity: '0' },
         },
-      }),
+      },
+      animation: {
+        blink: 'blink 1.1s steps(1) infinite',
+      },
     },
   },
-  variants: {
-    typography: ["dark"],
-  },
-  plugins: [require("@tailwindcss/typography")],
-};
+  plugins: [require('@tailwindcss/typography')],
+}

@@ -1,14 +1,10 @@
 baseURL: ''
 title: Elektronica
-languageCode: en-us
+locale: en-us
 DefaultContentLanguage: en
 enableEmoji: true
 enableGitInfo: true
 enableRobotsTXT: true
-canonifyURLs: true
-paginate: 9
-darkmode_js:
-  - assets/js/darkmode.js
 enableInlineShortcodes: true
 
 markup:
@@ -34,23 +30,40 @@ markup:
       unsafe: true
       xhtml: false
 
+# Remote resources (the Medium RSS feed) are re-fetched at most once an hour
+# instead of being cached forever between builds.
+caches:
+  getresource:
+    maxAge: 1h
+
 params:
   author: Pranjal Prajapati
   moto: "The platform for students to dream innovative practical projects and achieve them."
   description: "The Electronics and Signals club of IIT Hyderabad is a student organization that aims to increase student interest in electronics. The Club was founded in 2009, and it has come a long way since then."
-  disable_theme_toggle: false
+  # Set this to the live address (no trailing slash), e.g. "https://elektronica.iith.dev".
+  # While it is empty, the canonical link and social-preview (Open Graph) image
+  # tags are left out, because they need absolute URLs.
+  site_url: ""
+  og_image: "/images/og-images/featured-img-placeholder.png"
+  contact_email: "elektronica@gymkhana.iith.ac.in"
 
   p1:
     heading: "Our mission"
     image: "images/pages/our-mission.jpg"
     content:
       - text: "Philosophy: \"Learning by doing\" — Whether you're building, debugging, designing, or researching, there's a place for you here."
-      - text: " "
 
   p4:
     heading: "Explore Electronics and Signal Processing"
     content:
       - text: "Find the most insightful blogs on various topics here."
+
+  # Blog posts are pulled from this Medium feed when the site is built.
+  # If the feed can't be reached, the posts in content/posts/ are shown instead.
+  blog:
+    medium_profile: "https://medium.com/@elektronica"
+    medium_feed: "https://medium.com/feed/@elektronica"
+    max_posts: 10
 
   social_media:
     github:
@@ -62,81 +75,53 @@ params:
     twitter:
       enabled: true
       url: 'https://x.com/xElektronica'
-
-  TeamMembers:
-  - name: "Annapureddy Sai Ramyasri"
-    photo: "/images/team/Annapureddy Sai Ramyasri.jpg"
-  - name: "Anoop K"
-    photo: "/images/team/Anoop K.jpg"
-  - name: "Ashok"
-    photo: "/images/team/Ashok.png"
-  - name: "Bhavanisankar G S"
-    photo: "/images/team/Bhavanisankar G S.webp"
-  - name: "Byla Sanjith"
-    photo: "/images/team/Byla Sanjith.jpg"
-  - name: "Devi Amrutha"
-    photo: "/images/team/Devi Amrutha.jpg"
-  - name: "John Bobby"
-    photo: "/images/team/John Bobby.jpg"
-  - name: "K.Akhil"
-    photo: "/images/team/K.Akhil.jpg"
-  - name: "Krishna Patil"
-    photo: "/images/team/Krishna Patil.jpg"
-  - name: "Lakshitha Totakura"
-    photo: "/images/team/Lakshitha Totakura.jpg"
-  - name: "Nithin Surya S"
-    photo: "/images/team/Nithin Surya S.png"
-  - name: "Pilli Sri Naga Madhukar"
-    photo: "/images/team/Pilli Sri Naga Madhukar.jpg"
-  - name: "Priyanshu"
-    photo: "/images/team/Priyanshu.jpg"
-  - name: "Rishikesh"
-    photo: "/images/team/Rishikesh.jpg"
-  - name: "Ritam Basu"
-    photo: "/images/team/Ritam Basu.jpeg"
-  - name: "Riva Mohta"
-    photo: "/images/team/Riva Mohta.jpg"
-  - name: "Sarthak Kumar Mishra"
-    photo: "/images/team/Sarthak Kumar Mishra.png"
-  - name: "Sidharth V"
-    photo: "/images/team/Sidharth V.jpg"
-  - name: "Y. Harsha Vardhan Reddy"
-    photo: "/images/team/Y. Harsha Vardhan Reddy.jpg"
-  - name: "J.KEDARANANDA"
-    photo: "/images/team/J.KEDARANANDA.webp"
-  - name: "Soham Prabhakar More"
-    photo: "/images/team/Soham Prabhakar More.png"
-  - name: "Mihir Divyansh"
-    photo: "/images/team/Mihir Divyansh.png"
-    
+    medium:
+      enabled: true
+      url: 'https://medium.com/@elektronica'
 
 menu:
   main:
-    # - identifier: about
-    #   name: About
-    #   url: /about/
-    #   weight: 20
+    - identifier: projects
+      name: Projects
+      url: /projects/
+      weight: 10
+    - identifier: events
+      name: Events
+      url: /events/
+      weight: 20
+    - identifier: blog
+      name: Blog
+      url: /blog/
+      weight: 30
     - identifier: team
       name: Team
       url: /team/
-      weight: 30
-    # - identifier: contact
-    #   name: Contact
-    #   url: /contact/
-    #   weight: 50
+      weight: 40
+    - identifier: contact
+      name: Contact
+      url: /contact/
+      weight: 50
   footer:
-    # - identifier: about
-    #   name: About
-    #   url: /about/
-    #   weight: 10
+    - identifier: projects
+      name: Projects
+      url: /projects/
+      weight: 10
+    - identifier: events
+      name: Events
+      url: /events/
+      weight: 20
+    - identifier: blog
+      name: Blog
+      url: /blog/
+      weight: 30
     - identifier: team
       name: Team
       url: /team/
-      weight: 30
-    # - identifier: contact
-    #   name: Contact
-    #   url: /contact/
-    #   weight: 50
+      weight: 40
+    - identifier: contact
+      name: Contact
+      url: /contact/
+      weight: 50
 
 taxonomies:
   category: Categories
@@ -168,4 +153,5 @@ privacy:
 module:
   hugoVersion:
     extended: true
-    min: "0.114.0"
+    # `try` (0.141) is used for the Medium feed fetch, `hugo.Data` (0.156) for the data files.
+    min: "0.156.0"

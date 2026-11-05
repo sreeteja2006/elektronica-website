@@ -1,14 +1,20 @@
-<title itemprop="name">Elektronica</title>
-<meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}" />
-<meta property="og:title" content="{{ .Title }} | {{ .Site.Title }}" />
-<meta name="twitter:title" content="{{ .Title }} | {{ .Site.Title }}" />
-<meta itemprop="name" content="{{ .Title }} | {{ .Site.Title }}" />
-<meta name="application-name" content="{{ .Title }} | {{ .Site.Title }}" />
-<meta property="og:description"
-      content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}" />
+{{- $title := cond .IsHome .Site.Title (printf "%s | %s" .Title .Site.Title) -}}
+{{- $desc := cond (ne .Description "") .Description .Site.Params.description -}}
+<title>{{ $title }}</title>
+<meta name="description" content="{{ $desc }}" />
+<meta property="og:title" content="{{ $title }}" />
+<meta property="og:description" content="{{ $desc }}" />
 <meta property="og:site_name" content="{{ .Site.Title }}" />
-<meta property="og:url" content="{{ .Permalink }}" />
-<meta property="og:locale" content="en">
-<meta property="og:image" content="{{ if .Params.featured_image }}{{ .Params.featured_image | relURL }}{{ else }}{{ .Site.Params.og_image | relURL }}{{ end }}" />
-<meta property="og:image:secure_url" content="{{ if .Params.featured_image }}{{ .Params.featured_image | absURL }}{{ else }}{{ .Site.Params.og_image | absURL }}{{ end }}" />
-<meta property="og:type" content="{{if .IsHome}}website{{else}}article{{end}}" />
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="{{ if .IsHome }}website{{ else }}article{{ end }}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="{{ $title }}" />
+<meta name="twitter:description" content="{{ $desc }}" />
+{{- /* Absolute URLs are only emitted once params.site_url is set in config.yaml. */ -}}
+{{- with .Site.Params.site_url }}
+{{- $base := strings.TrimSuffix "/" . }}
+<link rel="canonical" href="{{ $base }}{{ $.RelPermalink }}" />
+<meta property="og:url" content="{{ $base }}{{ $.RelPermalink }}" />
+<meta property="og:image" content="{{ $base }}{{ $.Site.Params.og_image }}" />
+<meta name="twitter:image" content="{{ $base }}{{ $.Site.Params.og_image }}" />
+{{- end }}

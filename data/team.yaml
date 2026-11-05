@@ -1,0 +1,73 @@
+# Team page data. Everything below is PLACEHOLDER content.
+#
+# For each real member: fill in the fields and delete the `placeholder: true` line
+# (that removes the orange "placeholder" tag from their card).
+#
+#   name      required
+#   role      e.g. "Coordinator"
+#   year      free text, e.g. "B.Tech 2027"
+#   photo     path under static/, e.g. /images/team/Jane Doe.jpg  (leave "" for the icon)
+#   github    full URL, optional
+#   linkedin  full URL, optional
+#
+# Add, remove or rename groups freely.
+#
+# NOTE: the previous member list (22 names with photos) is in git history,
+# in the `TeamMembers` section of config.yaml. The photos are still in
+# static/images/team/ but are very large (some 3-7 MB); compress them before using.
+groups:
+  - title: Coordinators
+    members:
+      - name: Member Name 01
+        role: Role
+        year: Year
+        photo: ""
+        github: ""
+        linkedin: ""
+        placeholder: true
+      - name: Member Name 02
+        role: Role
+        year: Year
+        photo: ""
+        github: ""
+        linkedin: ""
+        placeholder: true
+      - name: Member Name 03
+        role: Role
+        year: Year
+        photo: ""
+        github: ""
+        linkedin: ""
+        placeholder: true
+  - title: Members
+    members:
+      - name: Member Name 04
+        role: Role
+        year: Year
+        photo: ""
+        placeholder: true
+      - name: Member Name 05
+        role: Role
+        year: Year
+        photo: ""
+        placeholder: true
+      - name: Member Name 06
+        role: Role
+        year: Year
+        photo: ""
+        placeholder: true
+      - name: Member Name 07
+        role: Role
+        year: Year
+        photo: ""
+        placeholder: true
+      - name: Member Name 08
+        role: Role
+        year: Year
+        photo: ""
+        placeholder: true
+      - name: Member Name 09
+        role: Role
+        year: Year
+        photo: ""
+        placeholder: true

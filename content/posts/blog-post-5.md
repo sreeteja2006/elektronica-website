@@ -1,6 +1,7 @@
 ---
 title: "Silicon to Systems: The Fab-ulous process of Semiconductor Manufacturing"
 slug: "blog-post-5"
+link: "https://medium.com/@elektronica/silicon-to-systems-the-fab-ulous-process-of-semiconductor-manufacturing-04a1a50a3a4a"
 draft: false
 language: en
 featured_image: ../assets/images/posts/blog-5.webp

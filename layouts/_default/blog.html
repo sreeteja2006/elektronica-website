@@ -1,0 +1,25 @@
+{{ define "main" }}
+{{ $blog := partialCached "blog-data.html" . }}
+{{ $lede := "" }}
+{{ range site.Params.P4.Content }}{{ $lede = .text }}{{ end }}
+{{ partial "page-header.html" (dict "eyebrow" "Blog" "title" .Title "lede" $lede) }}
+
+<section class="section-pad pt-12 lg:pt-12" aria-label="Posts">
+    <div class="shell">
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {{ range $blog.posts }}
+            <div data-reveal>
+                {{ partial "blog-card.html" (dict "post" .) }}
+            </div>
+            {{ end }}
+        </div>
+
+        <div class="mt-12" data-reveal>
+            <a href="{{ site.Params.blog.medium_profile }}" target="_blank" rel="noopener" class="btn btn-ghost">
+                All posts on Medium
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </a>
+        </div>
+    </div>
+</section>
+{{ end }}

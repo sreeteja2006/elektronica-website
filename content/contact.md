@@ -1,7 +1,6 @@
 ---
-title: "Contact Us @ elektronica@gymkhana.iith.ac.in"
+title: "Contact"
 type: "page"
-draft: true
-language: en
+layout: "contact"
+description: "Get in touch with Elektronica, the Electronics and Signals club of IIT Hyderabad."
 ---
-

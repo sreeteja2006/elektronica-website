@@ -1,6 +1,7 @@
 ---
 title: "Why Ghibli art looks so good: A Signal Processing perspective"
 slug: "blog-post-2"
+link: "https://medium.com/@elektronica/why-ghibli-art-looks-so-good-a-signal-processing-perspective-2cc9e6b830bc"
 draft: false
 language: en
 featured_image: ../assets/images/posts/blog-2.webp
