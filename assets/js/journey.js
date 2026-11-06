@@ -95,7 +95,7 @@ function drawSignal(g, r, t, px, speed = 0.18) {
 }
 
 function text(g, str, x, y, px, color, align = "center") {
-  g.font = `${11 * px}px "IBM Plex Mono", ui-monospace, monospace`;
+  g.font = `${13 * px}px "IBM Plex Sans", ui-sans-serif, sans-serif`;
   g.fillStyle = color;
   g.textAlign = align;
   g.textBaseline = "middle";
@@ -330,8 +330,8 @@ function layer3(g, px, t) {
   g.fillRect(-14, -240, 28, 28);
 
   text(g, "GATE", 0, -285, px, C.mute);
-  text(g, "SOURCE", -250, 185, px, C.mute);
-  text(g, "DRAIN", 250, 185, px, C.mute);
+  text(g, "Source", -250, 185, px, C.mute);
+  text(g, "Drain", 250, 185, px, C.mute);
 
   drawSignal(g, R3, t, px, 0.2);
 }
@@ -382,8 +382,8 @@ function layer4(g, px, t) {
 
   text(g, "GATE", 0, -135, px, C.light);
   text(g, "OXIDE", 0, -70, px, C.mute);
-  text(g, "SOURCE", -400, 110, px, C.sig);
-  text(g, "DRAIN", 400, 110, px, C.sig);
+  text(g, "Source", -400, 110, px, C.sig);
+  text(g, "Drain", 400, 110, px, C.sig);
   text(g, "p-type silicon", 0, 300, px, C.mute);
 
   g.fillStyle = C.sigHi;

@@ -11,7 +11,7 @@
                     <img src="{{ .photo }}" alt="{{ .name }}" width="400" height="400" loading="lazy" decoding="async"
                          class="h-full w-full object-cover grayscale transition duration-300 group-hover:grayscale-0" />
                     {{ else }}
-                    <span class="flex h-full w-full items-center justify-center font-mono text-2xl uppercase tracking-wider text-ink-500" aria-hidden="true">{{ range first 2 (split .name " ") }}{{ substr . 0 1 }}{{ end }}</span>
+                    <span class="flex h-full w-full items-center justify-center text-2xl font-medium text-ink-500" aria-hidden="true">{{ range first 2 (split .name " ") }}{{ substr . 0 1 }}{{ end }}</span>
                     {{ end }}
                 </div>
                 <h3 class="mt-2.5 text-sm font-medium leading-snug text-ink-100">{{ .name }}</h3>
