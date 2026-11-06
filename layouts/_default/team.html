@@ -3,23 +3,20 @@
 
 <section class="pb-24 pt-14 lg:pt-16" aria-label="Team">
     <div class="shell">
-        <ul class="grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+        <ul class="grid grid-cols-3 gap-x-4 gap-y-8 sm:grid-cols-4 lg:grid-cols-6">
             {{ range hugo.Data.team.members }}
             <li class="group" data-reveal>
-                <div class="aspect-[4/5] overflow-hidden bg-ink-800">
+                <div class="aspect-square overflow-hidden bg-ink-800">
                     {{ if .photo }}
-                    <img src="{{ .photo }}" alt="{{ .name }}" width="640" height="800" loading="lazy" decoding="async"
+                    <img src="{{ .photo }}" alt="{{ .name }}" width="400" height="400" loading="lazy" decoding="async"
                          class="h-full w-full object-cover grayscale transition duration-300 group-hover:grayscale-0" />
                     {{ else }}
-                    <svg class="h-full w-full text-ink-600" viewBox="0 0 80 100" fill="currentColor" aria-hidden="true">
-                        <circle cx="40" cy="38" r="15" /><path d="M10 100c0-22 13-34 30-34s30 12 30 34z" />
-                    </svg>
+                    <span class="flex h-full w-full items-center justify-center font-mono text-2xl uppercase tracking-wider text-ink-500" aria-hidden="true">{{ range first 2 (split .name " ") }}{{ substr . 0 1 }}{{ end }}</span>
                     {{ end }}
                 </div>
-                <h3 class="mt-3 text-base font-medium leading-snug text-ink-100">{{ .name }}</h3>
+                <h3 class="mt-2.5 text-sm font-medium leading-snug text-ink-100">{{ .name }}</h3>
                 <p class="meta mt-1">{{ with .role }}{{ . }}{{ end }}{{ with .year }} &middot; {{ . }}{{ end }}</p>
                 <div class="mt-2 flex items-center gap-3 text-ink-400">
-                    {{ if .placeholder }}<span class="placeholder-tag">placeholder</span>{{ end }}
                     {{ with .github }}<a href="{{ . }}" target="_blank" rel="noopener" class="meta transition-colors hover:text-ink-100">GitHub</a>{{ end }}
                     {{ with .linkedin }}<a href="{{ . }}" target="_blank" rel="noopener" class="meta transition-colors hover:text-ink-100">LinkedIn</a>{{ end }}
                 </div>

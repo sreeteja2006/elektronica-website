@@ -20,21 +20,19 @@
     <div class="shell">
         <h2 class="group-title" data-reveal>{{ .title }}</h2>
 
-        <ol class="rows">
+        {{ $dot := cond (eq .title "Upcoming") "bg-signal-400" "bg-ink-500" }}
+        <ol>
             {{ range .items }}
             {{ $d := time.AsTime .date }}
-            <li class="grid gap-x-8 gap-y-2 py-6 md:grid-cols-[9rem_1fr_auto]" data-reveal>
-                <time class="meta pt-1.5" datetime="{{ $d.Format "2006-01-02" }}">{{ $d.Format "02 Jan 2006" }}</time>
-                <div>
-                    <h3 class="text-xl font-semibold tracking-tight text-ink-100">{{ .title }}</h3>
-                    {{ with .summary }}<p class="mt-2 max-w-2xl leading-relaxed text-ink-300">{{ . }}</p>{{ end }}
-                    {{ with .venue }}<p class="meta mt-3">{{ . }}</p>{{ end }}
-                </div>
-                <div class="flex flex-wrap items-start gap-3 md:justify-end md:pt-1.5">
-                    {{ with .type }}<span class="meta">{{ . }}</span>{{ end }}
-                    {{ if .placeholder }}<span class="placeholder-tag">placeholder</span>{{ end }}
-                    {{ with .link }}<a href="{{ . }}" target="_blank" rel="noopener" class="link-arrow">Details &rarr;</a>{{ end }}
-                </div>
+            {{/* Timeline: one vertical rail with a dot per event; the date sits left of the rail on desktop. */}}
+            <li class="relative border-l border-ink-600 pb-12 pl-8 last:pb-2 md:ml-44" data-reveal>
+                <span class="absolute -left-[5px] top-[0.45rem] h-[9px] w-[9px] rounded-full {{ $dot }}" aria-hidden="true"></span>
+                <time class="meta block md:absolute md:-left-44 md:top-1" datetime="{{ $d.Format "2006-01-02" }}">{{ $d.Format "02 Jan 2006" }}</time>
+                <h3 class="mt-2 text-xl font-semibold tracking-tight text-ink-100 md:mt-0">{{ .title }}</h3>
+                {{ with .summary }}<p class="mt-2 max-w-2xl leading-relaxed text-ink-300">{{ . }}</p>{{ end }}
+                {{ $meta := slice }}{{ with .venue }}{{ $meta = $meta | append . }}{{ end }}{{ with .type }}{{ $meta = $meta | append . }}{{ end }}
+                {{ with $meta }}<p class="meta mt-3">{{ delimit . " · " }}</p>{{ end }}
+                {{ with .link }}<a href="{{ . }}" target="_blank" rel="noopener" class="link-arrow mt-3 inline-block">Details &rarr;</a>{{ end }}
             </li>
             {{ end }}
         </ol>

@@ -23,7 +23,6 @@
                     {{ with $p.status }}<p class="meta">{{ . }}</p>{{ end }}
                     {{ with $p.tags }}<p class="meta normal-case tracking-normal">{{ delimit . ", " }}</p>{{ end }}
                     <div class="flex flex-wrap items-center gap-3 md:justify-end">
-                        {{ if $p.placeholder }}<span class="placeholder-tag">placeholder</span>{{ end }}
                         {{ with $p.link }}<a href="{{ . }}" target="_blank" rel="noopener" class="link-arrow">View &rarr;</a>{{ end }}
                     </div>
                 </div>

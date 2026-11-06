@@ -484,7 +484,7 @@ export function initJourney({ gsap, ScrollTrigger, reduced }) {
     scrollTrigger: {
       trigger: stage,
       start: () => `top ${navH()}px`,
-      end: () => `+=${Math.round(window.innerHeight * 0.9 * (LAYERS - 1))}`,
+      end: () => `+=${Math.round(window.innerHeight * 1.25)}`, // short pin: the full zoom takes ~1 screen of scroll
       pin: true,
       scrub: 0.6,
       invalidateOnRefresh: true,

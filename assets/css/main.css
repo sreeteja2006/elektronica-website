@@ -150,9 +150,6 @@
 
   /* Marks content that still needs real data from the club. Remove the
      `placeholder: true` flag in data/*.yaml and the tag disappears. */
-  .placeholder-tag {
-    @apply inline-flex items-center rounded-sm border border-dashed border-ink-400 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-300;
-  }
 }
 
 /* Long-form text (single posts, about) */
