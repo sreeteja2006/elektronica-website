@@ -329,7 +329,7 @@ function layer3(g, px, t) {
   g.fillStyle = C.mute;
   g.fillRect(-14, -240, 28, 28);
 
-  text(g, "GATE", 0, -285, px, C.mute);
+  text(g, "Gate", 0, -285, px, C.mute);
   text(g, "Source", -250, 185, px, C.mute);
   text(g, "Drain", 250, 185, px, C.mute);
 
@@ -380,8 +380,8 @@ function layer4(g, px, t) {
   g.fillRect(-470, -140, 80, 80);
   g.fillRect(390, -140, 80, 80);
 
-  text(g, "GATE", 0, -135, px, C.light);
-  text(g, "OXIDE", 0, -70, px, C.mute);
+  text(g, "Gate", 0, -135, px, C.light);
+  text(g, "Oxide", 0, -70, px, C.mute);
   text(g, "Source", -400, 110, px, C.sig);
   text(g, "Drain", 400, 110, px, C.sig);
   text(g, "p-type silicon", 0, 300, px, C.mute);
