@@ -210,9 +210,17 @@ function layer1(g, px, t) {
       g.lineWidth = 1.5 * px;
       g.strokeStyle = C.line2;
       g.strokeRect(-500, y - 14, 170, 28);
+      // PCB-style wire: straight, one 45° bend, straight into the die. Each side's
+      // wires stay inside its quarter (|y| < |x|), so the corner pins (|k| = 5)
+      // have no room and are left unbonded, as on a real package.
+      const a = Math.abs(k);
+      if (a === 5) continue;
+      const s = Math.sign(k);
+      const d = 50 - 10 * a; // the diagonal is y = -x - d (mirrored for k < 0)
       g.beginPath();
       g.moveTo(-330, y);
-      g.quadraticCurveTo(-190, y * 0.7 - 20, -52, k * 8);
+      g.lineTo(-80 * a - d, y);
+      g.lineTo(-52, s * (52 - d));
       g.lineWidth = 1.4 * px;
       g.strokeStyle = C.mute;
       g.stroke();
@@ -296,7 +304,7 @@ function layer2(g, px, t) {
 }
 
 // 3: a transistor in plan view: diffusion, gate poly, contacts, metal.
-const R3 = route([[-500, 0], [-440, 0], [-420, -30], [-300, -30], [-280, 0], [-50, 0]]);
+const R3 = route([[-500, 0], [-50, 0]]);
 function layer3(g, px, t) {
   g.fillStyle = C.bg0;
   g.fillRect(-500, -500, 1000, 1000);
